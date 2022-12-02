@@ -481,7 +481,7 @@ if (scoreDolphins > scoreKoalas && scoreDolphins >= 100){
 ////////////////////////////////
 // The Switch statement - An alternative to if-else
 
-const day = 'saturday';
+// const day = 'saturday';
 
 /* if (day === 'monday'){
     console.log("Executing tasks 1 for MON");
@@ -499,7 +499,7 @@ else if (day === 'friday'){
     console.log("Not a valid day!");
 } */
 
-switch (day) {
+/* switch (day) {
     case 'monday': // day === 'monday'
         console.log("Executing tasks 1 for MON");
         console.log("Executing tasks 2 for MON");
@@ -520,5 +520,29 @@ switch (day) {
         break;
     default:
         console.log("Not a valid day!");
-}
+} */
 
+
+////////////////////////////////
+// Statement/declarations and Expressions
+
+// An expression is a piece of code that produces values
+
+/* 3 + 4  */ //is an expresison because produces '7' as value in JS
+/* 1991 (number)*/ //is a value too because itself produces the number 1991 as value in JS
+/* true && false && !false */ // is an expression too because produces a boolean value
+
+// Statement is a bigger piece of code that is executed and which does not produce a value itself
+// We write our code as a sequence of actions and these ACTIONS are STATEMENTS - declarations is like completely sentences ansd expressions are like words
+
+/* if (23 > 10) {
+    const str = '23 is bigger';
+} */
+// if/else or switch, for example, is a statement - it performs some actions, declaring something, but it doesn't produce a value. BUT in the previous example, the string itself is an expression - basic, whenever something ends with a semicolon, that's then a statement, like a complete sentence. 
+
+//JS expects statements and expressions in different places - do not put an expression where its expects a statement
+
+console.log(`I'm ${2022 - 1994} years old`); //In ${} is expect expression like the one it has received, but we cannot put an if/else code, for exemple. But you can put a variable name, because the variable will essentially just be replaced with the string, like below.
+
+const me = 'Vic';
+console.log(`I'm ${2022 - 1994} years old ${me}`)
