@@ -524,7 +524,7 @@ else if (day === 'friday'){
 
 
 ////////////////////////////////
-// Statement/declarations and Expressions
+// 27 Statement/declarations and Expressions
 
 // An expression is a piece of code that produces values
 
@@ -542,7 +542,50 @@ else if (day === 'friday'){
 
 //JS expects statements and expressions in different places - do not put an expression where its expects a statement
 
-console.log(`I'm ${2022 - 1994} years old`); //In ${} is expect expression like the one it has received, but we cannot put an if/else code, for exemple. But you can put a variable name, because the variable will essentially just be replaced with the string, like below.
+/* console.log(`I'm ${2022 - 1994} years old`); //In ${} is expect expression like the one it has received, but we cannot put an if/else code, for exemple. But you can put a variable name, because the variable will essentially just be replaced with the string, like below.
 
 const me = 'Vic';
-console.log(`I'm ${2022 - 1994} years old ${me}`)
+console.log(`I'm ${2022 - 1994} years old ${me}`) */
+
+
+///////////////////////////////
+// 28 The conditional (Ternary) Operator
+/*Similar to if/else statement, */
+
+const age = 20;
+
+/* Old way =>
+let drink2;
+if (age >= 18){
+    drink2 = 'wine 🍷';
+} else{
+    drink2 = ' water 🥛';
+}
+console.log(drink2);
+*/
+
+/* Ternary way (but too big) => 
+age >= 18 ? console.log(`I like to drink wine 🍷`) : console.log(`I like to drink water 🥛`); */
+
+
+/* Shorte Ternary way => 
+const drink = age >= 18 ? 'wine 🍷' : ' water 🥛' ;
+console.log(drink);
+*/
+
+/*Expression inside template literal
+console.log(`I like to drink ${age >= 18 ? 'wine 🍷' : ' water 🥛'}`);*/
+
+///////////////////////////////
+// 29 Coding Challenge #4
+
+/*
+Steven wants to build a very simple tip clculator for whenever he goes eating in a restaurant. In his country, it's usual to tip 15% if the bill value is between 50 and 300. If the value is different, the tip is 20%.
+
+1. Your task is to calculate the tip, depending on the bill value. Create a variable called 'tip' for this. It's not allowed to sue an if/else statement (If it's easier for you, you can start with an if/else statement, and then try to convert it to a ternary operator!)
+2. Print a string to the console containing the bill value, the tip, and the final value (bill + tip).
+Example: 'The bill was 275, the tip was 41.25, and the total calue 316.25'
+
+TEST DATA: Test for bill values 275, 40 and 430
+*/
+
