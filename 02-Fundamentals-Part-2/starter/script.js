@@ -12,16 +12,16 @@
 */
 
 function logger() {
-    console.log('My name is Vic');
+    console.log('My name is Vic');//this function just print/log a message to the console, it doesn't return/produce a value
 }
 // calling / running / invoking function
-logger();
+logger();//in this case, we don't need to store the result of the function into any variable because it doesn't produce any result
 
 function fruitProcessor(apples, oranges){
     const juice = `Juice with ${apples} apples and ${oranges} oranges`;
     //template literal defined with the parameters/arguments placeholders
     return juice; 
-    // when used, 'return' replace the code with the result of the function. If you want to use it, like printing in the console for example, you need to store the invoked funtion into a variable.
+    // when used, 'return' replace the code with the result of the function. If you want to use it, like printing in the console, for example, you need to store the invoked funtion into a variable.
 }
 
 //now we define the parameters once declared (apples, oranges), transforming them into 'arguments'
