@@ -226,7 +226,7 @@ checkWinner(scoreDolphins, scoreKoalas); */
 // 39 Arrays
 
 // Arrays is like a big container where we can throw variables and later reference them; The two most important data structure in JS is Arrays and Objects
-
+/* 
 //Instead this:
 const var1 = 'A';
 const var2 = 'B';
@@ -259,8 +259,9 @@ const lastName = 'Tyler';
 const person = ['Bob', lastName, 2022 - 1991, vars];
 
 console.log(person); // In the console: " (4) ['Bob', 'Tyler', 31, Array(3)] "
-
+ */
 //Exercise
+/* 
 const calcAge = function (birthYear){
     return 2022 - birthYear; 
 }
@@ -279,5 +280,51 @@ console.log(age1, age2, age3);
 //We can also store the function result directly into an array element because an array element expects an expression in this place
 const ages = [calcAge(years[0]), calcAge(years[1]), calcAge(years[years.length - 1])];
 console.log(ages); //In the console: " (3) [32, 55, 4] ""
+ */
 
+///////////////////////////////
+// 40 Basic Array Operations (Methods)
+// Methods = array functions
 
+const vars = ['A', 'B', 'C'];
+
+//Add elements
+
+// Push method (+ end) - called with the var where the array is stored and used to add something in the END of this array - a string, a number, an expression, etc
+/*vars.push('D');*/
+const newLenght = vars.push('D'); // here we stored the function into a var to capture the new lenght result
+console.log(vars); // (4) ['A', 'B', 'C', 'D']
+console.log(newLenght); // 4
+
+// Unshift method (+ start) - called with the var name where the array is stored and used to add something in the BEGINNING of this array - a string, a number, an expression, etc
+vars.unshift(9);
+console.log(vars); // (5) [9, 'A', 'B', 'C', 'D']
+// If you save the function into a variable as before, it will also return the actual lenght
+ 
+//Remove elements
+
+//Pop method (- last) - called with the var name where the array is stored and used to remove the LAST element of this array
+vars.pop(); // we don't need to pass any arguments to it and if you repeat it, it will remove the next and the next element until no one has left
+console.log(vars); // (4) [9, 'A', 'B', 'C'] => removed 'D' that was added recently
+
+const popped = vars.pop(); // here we stored the function into a var to capture the removed element
+console.log(popped);// C - because its removing D first and then C in the 'popped' var
+
+//Shift method (- first) - called with the var name where the array is stored and used to remove the FIRST element of this array
+vars.shift();
+console.log(vars); //(2) ['A', 'B'] - because its counting the D and C remove before and removed 9 at least
+
+//indexOf method (position) - it tells us wich position an element is; if try an element that doesn't exist in the array, it will return -1
+console.log(vars.indexOf('A')); // 0
+console.log(vars.indexOf('5')); // -1
+
+//Includes method (true || false) - similir to 'indexOf', it will return 'true' if an element exit in the array and FALSE if its not
+console.log(vars.includes('A')); // true
+console.log(vars.includes('5')); // false
+//Its test with === strict method, so a number 23 is not equal to a string '23', and will return false; So its very useful to write conditionals
+
+if(vars.includes('A')){
+    console.log(`You have the letter A`);
+}else{
+    console.log(`You dont have the letter A`);
+};
