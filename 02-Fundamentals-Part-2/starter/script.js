@@ -152,7 +152,7 @@ console.log(yearsUntilRetirement(1970, 'Mike'));
 
 
 ///////////////////////////////
-// 38 Coding Challenge #1
+// 38 Coding Challenge #1 (Section 2)
 
 /*
 Back to the two gymnastics teams, the Dolphins and the Koalas! There is a new gymnastics discipline, which works differently.
@@ -193,10 +193,12 @@ console.log(checkWinner(138, 168)); */
 */
 
 // Course Solution 
-const calcAverage = (a, b, c) => (a + b + c) / 3;
+
+/* const calcAverage = (a, b, c) => (a + b + c) / 3;
 
 //Test 1
-/*We call them 'let', so we can reassign them later w/ test 2 data*/
+
+//We call them 'let', so we can reassign them later w/ test 2 data*
 let scoreDolphins = calcAverage(44, 23, 71);
 let scoreKoalas = calcAverage(65, 54, 49);
 
@@ -209,12 +211,73 @@ const checkWinner = function(avgDolphins, avgKoalas){
         console.log(`No one wins`);
     }
 }
-checkWinner(scoreDolphins, scoreKoalas);
+checkWinner(scoreDolphins, scoreKoalas); */
 
 //Test 2
-/*Since this variables are 'let', we can just reassign their values (w/o creating new variables)*/
+
+/* //Since this variables are 'let', we can just reassign their values (w/o creating new variables)
 scoreDolphins = calcAverage(85, 54, 41);
 scoreKoalas = calcAverage(23, 34, 27);
-/*Just call the function again :)*/
-checkWinner(scoreDolphins, scoreKoalas);
+//Just call the function again :)
+checkWinner(scoreDolphins, scoreKoalas); */
+
+
+///////////////////////////////
+// 39 Arrays
+
+// Arrays is like a big container where we can throw variables and later reference them; The two most important data structure in JS is Arrays and Objects
+
+//Instead this:
+const var1 = 'A';
+const var2 = 'B';
+const var3 = 'C';
+
+//Do this:
+const vars = ['A', 'B', 'C'];
+console.log(vars); //This is how an array will look like in console, showing the actual length and the elements => " (3) ['A', 'B', 'C'] "
+
+//We can also write an array calling it as a function (need the 'new' keyword):
+const y = new Array(1991, 1984, 2008, 2020);
+
+//To log an specific variable from the array bundle to the console, we write it by its order:
+console.log(vars[0]); //Array bundle start from 0 and continue with 1, 2, 3, ..
+console.log(vars[2]); 
+
+//We can also retrieve the actual number of elements in the array:
+console.log(vars.length); //length is a property
+
+//We can use this to automatically retrieve the last element of any Array - so we don't need to count hou many elements are in the array:
+console.log(vars[vars.length - 1]); // we need to subtract -1 because the array has 0 base order, so even we have 3 elements, the last one will be in order 2; inside the brackest [] JS expects an expresison, not an statement
+
+//The brackets [] can be used not just to retrieve but to change elements into the array
+vars[2] = 'T';
+console.log(vars);
+//Since we declare 'vars' with 'const' and we could change the array value, only primitive values are immutable w/ 'const'; And an array it's not a primitive value. BUT we cannot replace the entire array
+
+//An array can hold elements from different types - strings, numbers, expressions, variables (including the variables that holds another array)
+const lastName = 'Tyler';
+const person = ['Bob', lastName, 2022 - 1991, vars];
+
+console.log(person); // In the console: " (4) ['Bob', 'Tyler', 31, Array(3)] "
+
+//Exercise
+const calcAge = function (birthYear){
+    return 2022 - birthYear; 
+}
+
+const years = [1990, 1967, 2002, 2010, 2018];
+//to use the function, we cannot call it and pass to it 'years' because it will expect just 1 value and the array have more than this - we can't do a number minus an entire array, but we can use a function with a specific array element
+
+console.log(calcAge(years)); //NaN - use the console.log to detail the result
+
+//One of the ways we can include an array element into a function:
+const age1 = calcAge(years[0]); //1990
+const age2 = calcAge(years[1]); //1967
+const age3 = calcAge(years[years.length - 1]); //2018
+console.log(age1, age2, age3); 
+
+//We can also store the function result directly into an array element because an array element expects an expression in this place
+const ages = [calcAge(years[0]), calcAge(years[1]), calcAge(years[years.length - 1])];
+console.log(ages); //In the console: " (3) [32, 55, 4] ""
+
 
