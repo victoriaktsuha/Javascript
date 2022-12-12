@@ -154,7 +154,6 @@ console.log(yearsUntilRetirement(1970, 'Mike'));
 ///////////////////////////////
 // 38 Coding Challenge #1
 
-
 /*
 Back to the two gymnastics teams, the Dolphins and the Koalas! There is a new gymnastics discipline, which works differently.
 Each team competes 3 times, and then the average of the 3 score is calculated (so one average score per team).
@@ -169,44 +168,53 @@ TEST DATA 1: Dolphins score 44, 23 and 71. Koalas score 65, 54 and 49
 TEST DATA 2: Dolphins score 85, 54 and 41. Koalas score 23, 34 and 27 
 */
 
-
-
-const calcAverage = totalScore => totalScore / 3;
+// My solution (doesn't work)
+/* const calcAverage = totalScore => totalScore / 3;
 
 const checkWinner = function(avgDolphins, avgKoalas){
     const scoreDolphins = calcAverage(avgDolphins);
     const scoreKoalas = calcAverage(avgKoalas);
 
     if (scoreDolphins >= scoreKoalas*2){
-        console.log(`Dophins wins (${scoreDolphins} xvs. ${scoreKoalas})`);
+        return console.log(`Dolphins wins (${scoreDolphins} vs. ${scoreKoalas})`);
 
     }else if(scoreKoalas >= scoreDolphins*2){
-        console.log(`Koalas wins (${scoreKoalas} xvs. ${scoreDolphins})`);
-        return;
+        return console.log(`Koalas wins (${scoreKoalas} vs. ${scoreDolphins})`);
+    }else{
+        return console.log(`No one wins`);
+    }
+}
+console.log(checkWinner(138, 168)); */
+/*What's Wrong ? 
+- the variables that calculate the average score should be out of the function expression;
+- the arrow function could receive all the 3 scores or not;
+- the 'return' wasn't actually necessary
+- call the function expression without console.log (it will consider it 'undefined'), inputing the scores out of the function as arguments
+*/
+
+// Course Solution 
+const calcAverage = (a, b, c) => (a + b + c) / 3;
+
+//Test 1
+/*We call them 'let', so we can reassign them later w/ test 2 data*/
+let scoreDolphins = calcAverage(44, 23, 71);
+let scoreKoalas = calcAverage(65, 54, 49);
+
+const checkWinner = function(avgDolphins, avgKoalas){
+    if(avgDolphins >= 2 * avgKoalas){
+        console.log(`Dolphins wins (${avgDolphins} vs. ${avgKoalas})`);
+    }else if(avgKoalas >= 2 * avgDolphins) {
+        console.log(`Koalas wins (${avgKoalas} vs. ${avgDolphins})`);
     }else{
         console.log(`No one wins`);
-        return;
     }
 }
-console.log(checkWinner(138, 168));
+checkWinner(scoreDolphins, scoreKoalas);
 
-/////////////////////////////////////////////////////
-/* const calcAge = function (birthYear){
-    return 2037 - birthYear;
-}
+//Test 2
+/*Since this variables are 'let', we can just reassign their values (w/o creating new variables)*/
+scoreDolphins = calcAverage(85, 54, 41);
+scoreKoalas = calcAverage(23, 34, 27);
+/*Just call the function again :)*/
+checkWinner(scoreDolphins, scoreKoalas);
 
-const yearsUntilRetirement = function (birthYear, firstName) {
-    const age = calcAge(birthYear);
-    const retirement = 65 - age;
-
-    if(retirement > 0){
-        console.log(`${firstName} retires in ${retirement} years 👩‍🦳`);
-        return retirement;
-    }else{
-        console.log(`${firstName} is already retired 👩‍🦳`);
-        return -1;
-    }
-
-}
-console.log(yearsUntilRetirement(1994, 'Bob'));
-console.log(yearsUntilRetirement(1970, 'Mike')); */
