@@ -285,13 +285,13 @@ console.log(ages); //In the console: " (3) [32, 55, 4] ""
 ///////////////////////////////
 // 40 Basic Array Operations (Methods)
 // Methods = array functions
-
+/* 
 const vars = ['A', 'B', 'C'];
 
 //Add elements
 
 // Push method (+ end) - called with the var where the array is stored and used to add something in the END of this array - a string, a number, an expression, etc
-/*vars.push('D');*/
+//vars.push('D');
 const newLenght = vars.push('D'); // here we stored the function into a var to capture the new lenght result
 console.log(vars); // (4) ['A', 'B', 'C', 'D']
 console.log(newLenght); // 4
@@ -328,3 +328,62 @@ if(vars.includes('A')){
 }else{
     console.log(`You dont have the letter A`);
 };
+ */
+
+
+///////////////////////////////
+// 41 Coding Challenge #2
+
+/*
+Steven is still building his tip calculator, using the same rules as before: Tip 15% of the bill if the bill value is between 50 and 300, and if the value is different, the tip is 20%.
+
+1.Write a function 'calcTip' that takes any bill value as an input and returns the corresponding tip, calculated based on the rules above (you can check out the code from first tip calculator challenge if you need to). Use the function type you like the most. Test the function using a bill value of 100.
+2.And now let's use arrays! So create an array 'bills' containing the test data below.
+3. Create an array 'tips' containing the tip value for each bill, calculated from the function you created before.
+4. BONUS: Create an array 'total' containing the total values, so the bill + tip.
+
+TEST DATA: 125, 555 and 44
+*/
+
+/* Way 1
+function calcTip(bill){
+    if(bill >= 50 && bill <= 300) {
+        return bill * 0.15;
+    } else{
+       return bill * 0.20;
+    }
+} 
+*/
+/* way 2
+const calcTip = function calcTip = (bill){
+    if(bill >= 50 && bill <= 300) {
+        return bill * 0.15;
+    } else{
+       return bill * 0.20;
+    }
+} 
+*/
+/*Way 3
+const calcTip = bill => bill >= 50 && bill <= 300 ? bill*0.15 : bill*0.2;
+*/
+
+/* Way 4
+const calcTip = function (bill){
+    return bill >= 50 && bill <= 300 ? bill * 0.15 : bill * 0.20;
+} 
+*/
+
+/* function calcTip (bill){
+    return bill >= 50 && bill <= 300 ? bill * 0.15 : bill * 0.20;
+}
+console.log(calcTip(100)); 
+
+let bills = [125, 555, 44];
+let tips = [calcTip(bills[0]), calcTip(bills[1]), calcTip(bills[2])];
+console.log(tips);
+
+let total = [bills[0] + tips[0], bills[1] + tips[1], bills[2] + tips[2]];
+console.log(total); */
+
+///////////////////////////////
+// 42 Introduction to Objects

@@ -552,9 +552,9 @@ console.log(`I'm ${2022 - 1994} years old ${me}`) */
 // 28 The conditional (Ternary) Operator
 /*Similar to if/else statement, */
 
-const age = 20;
+//const age = 20;
 
-/* Old way =>
+/* Conventional way:
 let drink2;
 if (age >= 18){
     drink2 = 'wine 🍷';
@@ -568,7 +568,7 @@ console.log(drink2);
 age >= 18 ? console.log(`I like to drink wine 🍷`) : console.log(`I like to drink water 🥛`); */
 
 
-/* Shorte Ternary way => 
+/* Shorten Ternary way => 
 const drink = age >= 18 ? 'wine 🍷' : ' water 🥛' ;
 console.log(drink);
 */
