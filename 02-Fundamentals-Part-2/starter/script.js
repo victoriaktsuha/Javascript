@@ -387,3 +387,28 @@ console.log(total); */
 
 ///////////////////////////////
 // 42 Introduction to Objects
+
+//array
+const objArray = [
+    'firstName',
+    'lastName',
+    2037 - 1991,
+    'job',
+    ['friend1', 'friend2', 'friend3']
+];
+console.log(objArray[1]);
+
+//object - holds properties that receive values (any type - expression, array, string, number, boolean); the properties are separated by commas, like in array. There are many ways of creating objects
+const obj = {
+    //key: 'value', 
+    firstName: 'John',
+    lastName: 'Tyler',
+    age: 2037 - 1991,
+    job: 'teacher',
+    friends: ['Michael', 'Peter', 'Steven']
+};
+//the big difference between arrays an objects is that the order of the elements doesn't matter at all when we want to retreive them - we should use array for a order data and an object for more unstructured data; 
+console.log(obj.lastName); // we print the property in the console by calling the object name + . (dot) + property name
+
+///////////////////////////////
+// 43 Introduction to Objects
