@@ -387,7 +387,7 @@ console.log(total); */
 
 ///////////////////////////////
 // 42 Introduction to Objects
-
+/* 
 //array
 const objArray = [
     'firstName',
@@ -396,7 +396,7 @@ const objArray = [
     'job',
     ['friend1', 'friend2', 'friend3']
 ];
-console.log(objArray[1]);
+console.log(objArray[1]); // lastName
 
 //object - holds properties that receive values (any type - expression, array, string, number, boolean); the properties are separated by commas, like in array. There are many ways of creating objects
 const obj = {
@@ -408,7 +408,47 @@ const obj = {
     friends: ['Michael', 'Peter', 'Steven']
 };
 //the big difference between arrays an objects is that the order of the elements doesn't matter at all when we want to retreive them - we should use array for a order data and an object for more unstructured data; 
-console.log(obj.lastName); // we print the property in the console by calling the object name + . (dot) + property name
-
+ */
 ///////////////////////////////
-// 43 Introduction to Objects
+// 43 Dots vs. Bracket Notation
+
+const person = { 
+    firstName: 'John',
+    lastName: 'Tyler',
+    age: 2037 - 1991,
+    job: 'teacher',
+    friends: ['Michael', 'Peter', 'Steven']
+};
+console.log(person); // {firstName: 'John', lastName: 'Tyler', age: 46, job: 'teacher', friends: Array(3)}
+//Getting a property from an object
+console.log(person.lastName) // by dot notation
+console.log(person['lastName']) // by brackets notation
+
+//by 'expression' - in this example, 'Name' is being used because its repeated in 2 properties, so we're trying to save some time; Expression can be used just with brackets
+const nameKey = 'Name';
+console.log(person['first' + nameKey]); //John
+console.log(person['last' + nameKey]); //Tyler
+//o que acontece é que o JS vai começar lendo a linha de concatenação ['first' + nameKey]/['last' + nameKey], resultando em 'firstName'/'lastName'; e então ele vai até o objeto indicado 'person' e buscará a propriedade de mesmo 'nome' do resultado da concatenação, imprimindo no console os valores atribuidos a essa(s) propriedade(s);
+
+//in these example, we want to retrieve a data that we don't know/have access yet
+const interestedIn = prompt('What do you want to know about John? Choose between firstName, lastName, age, job, and friends');//prompt create pop-up window w/ input field 
+//console.log(interestedIn);// what is typed by user, will appear in the console
+//console.log(jonas.interestedIn); // => undefined - is what we get when we try to access a property on an object that doesn't exist
+//console.log(person[interestedIn]); //now, when user type 'job', the console will print the value 'teacher' assigned in the property 'job' inside the 'person' object
+
+if(person[interestedIn]){
+    console.log(person[interestedIn]);
+}else{
+    console.log('Wrong request! Choose between firstName, lastName, age, job, and friends')
+}
+//now that the object exist, we can add properties like this:
+person.location = 'Portugal';
+person['phone'] = '123-456';
+console.log(person); // (arrow down) age: 46firstName: "John"friends: (3) ['Michael', 'Peter', 'Steven']job: "teacher"lastName: "Tyler"location: "Portugal"phone: "123-456";
+
+//Challenge
+//"John has 3 friends, and his best friend is called Michael"
+//Traditional way
+console.log(person.firstName + ' has ' + person.friends.length + ' friends, and his best friend is called ' + person.friends[0]);
+//Pratical way
+console.log(`${person.firstName} has ${person.friends.length} friends, and his best friend is called ${person.friends[0]}`);
