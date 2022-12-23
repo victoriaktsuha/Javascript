@@ -77,11 +77,11 @@ console.log(age1, age2); */
 }
 const age2 = calcAge2(1994); */
 
-// Arrow Funtion
+// Arrow Function
 /* const calcAge3 = birthYear => 2037 - birthYear;
 const age3 = calcAge3(1994);
 console.log(age3); */
-/* 'brithYear' still as your parameter, then add the arrow '=>', and after that, you write what you want to return, removing the need of the curly braces and the 'return' keyword - you still need to store it in a variable to be able to use the result. Everything after the '=' sign is a value */
+/* 'birthYear' still as your parameter, then add the arrow '=>', and after that, you write what you want to return, removing the need of the curly braces and the 'return' keyword - you still need to store it in a variable to be able to use the result. Everything after the '=' sign is a value */
 
 
 /* const yearsUntilRetirement = birthYear => {
@@ -411,7 +411,7 @@ const obj = {
  */
 ///////////////////////////////
 // 43 Dots vs. Bracket Notation
-
+/* 
 const person = { 
     firstName: 'John',
     lastName: 'Tyler',
@@ -444,7 +444,7 @@ if(person[interestedIn]){
 //now that the object exist, we can add properties like this:
 person.location = 'Portugal';
 person['phone'] = '123-456';
-console.log(person); // (arrow down) age: 46firstName: "John"friends: (3) ['Michael', 'Peter', 'Steven']job: "teacher"lastName: "Tyler"location: "Portugal"phone: "123-456";
+console.log(person); // (arrow down) age: 46 firstName: "John" friends: (3) ['Michael', 'Peter', 'Steven'] job: "teacher" lastName: "Tyler" location: "Portugal" phone: "123-456";
 
 //Challenge
 //"John has 3 friends, and his best friend is called Michael"
@@ -452,3 +452,52 @@ console.log(person); // (arrow down) age: 46firstName: "John"friends: (3) ['Mich
 console.log(person.firstName + ' has ' + person.friends.length + ' friends, and his best friend is called ' + person.friends[0]);
 //Pratical way
 console.log(`${person.firstName} has ${person.friends.length} friends, and his best friend is called ${person.friends[0]}`);
+ */
+
+///////////////////////////////
+// 44 Objects Methods
+
+//We can add functions to objects - any functions that is attached to an object is called method
+
+const person = { 
+    firstName: 'John',
+    lastName: 'Tyler',
+    birthYear: 1991,
+    job: 'teacher',
+    friends: ['Michael', 'Peter', 'Steven'],
+    hasDriversLicense: true,
+
+    /* 
+        calcAge: function(birthYear){
+        return 2037 - birthYear;
+    } 
+    */
+
+    /* 
+        calcAge: function (){
+        console.log(this);//here the 'this' keyword will point to the object its included - person - and return in the console: {firstName: 'John', lastName: 'Tyler', birthYear: 1991, job: 'teacher', friends: Array(3), …}
+        return 2037 - this.birthYear; //here the 'this' keyword will point to the object its include and 'search' for the property indicated 'birthYear'; We could use the name of the object, but it violates the 'don't reapeat yourself' rule; and if in some case, the object has another name, we won't need to deal with finding bugs and rewriting the code
+    } 
+    */
+   //if in some case the age need to be access a several time throughout the program, won't be a good practice call the method again and again - so we can call the method, atore the value into a variable and use it as a object property later
+    calcAge: function (){
+        this.age = 2037 - this.birthYear; //here 'this.age' create a new property 'age' into the 'person'(this) object and also already store the calculation result, so we can retrieve it later
+        return this.age; 
+    },
+    //Challenge
+    //"John is a 46-yo teacher and he has a driver license"
+    getSummary: function(){
+        return `${this.firstName} is a ${this.calcAge()}yo ${this.job}, and he has ${this.hasDriversLicense ? `a` : `no`} driver's license`;
+    }
+};
+
+console.log(person.calcAge());
+console.log(person.age);
+console.log(person.getSummary());
+
+//console.log(person.calcAge(1991)); // 46
+//console.log(person['calcAge'](1991)); // we can also use brackets cause 'calcAge' is like a property
+//console.log(person.calcAge());// here we don't need to pass an argument because we're already indicating it in the method with 'this.birthYear'
+
+//Arrays are also objects
+
