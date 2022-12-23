@@ -534,4 +534,4 @@ const mark = {
 };
 john.calcBMI(); 
 mark.calcBMI();
-console.log(`${john.bmi >= mark.bmi ? john.fullName : mark.fullName}'s BMI (${john.bmi >= mark.bmi ? john.bmi : mark.bmi}) is higher than ${john.bmi >= mark.bmi ? mark.fullName : john.fullName}'s (${john.bmi >= mark.bmi ? mark.bmi : john.bmi})`);
+console.log(`${john.bmi > mark.bmi ? john.fullName : mark.fullName}'s BMI (${john.bmi > mark.bmi ? john.bmi : mark.bmi}) is higher than ${john.bmi > mark.bmi ? mark.fullName : john.fullName}'s (${john.bmi > mark.bmi ? mark.bmi : john.bmi})`);
