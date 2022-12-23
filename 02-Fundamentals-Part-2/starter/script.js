@@ -458,7 +458,7 @@ console.log(`${person.firstName} has ${person.friends.length} friends, and his b
 // 44 Objects Methods
 
 //We can add functions to objects - any functions that is attached to an object is called method
-
+/* 
 const person = { 
     firstName: 'John',
     lastName: 'Tyler',
@@ -467,18 +467,15 @@ const person = {
     friends: ['Michael', 'Peter', 'Steven'],
     hasDriversLicense: true,
 
-    /* 
         calcAge: function(birthYear){
         return 2037 - birthYear;
     } 
-    */
 
-    /* 
         calcAge: function (){
         console.log(this);//here the 'this' keyword will point to the object its included - person - and return in the console: {firstName: 'John', lastName: 'Tyler', birthYear: 1991, job: 'teacher', friends: Array(3), …}
         return 2037 - this.birthYear; //here the 'this' keyword will point to the object its include and 'search' for the property indicated 'birthYear'; We could use the name of the object, but it violates the 'don't reapeat yourself' rule; and if in some case, the object has another name, we won't need to deal with finding bugs and rewriting the code
     } 
-    */
+    
    //if in some case the age need to be access a several time throughout the program, won't be a good practice call the method again and again - so we can call the method, atore the value into a variable and use it as a object property later
     calcAge: function (){
         this.age = 2037 - this.birthYear; //here 'this.age' create a new property 'age' into the 'person'(this) object and also already store the calculation result, so we can retrieve it later
@@ -500,4 +497,41 @@ console.log(person.getSummary());
 //console.log(person.calcAge());// here we don't need to pass an argument because we're already indicating it in the method with 'this.birthYear'
 
 //Arrays are also objects
+ */
 
+///////////////////////////////
+// 45 Coding Challenge 3
+
+/*
+Let's go back to Mark and John comparing their BMIs!
+This time, let's use objects to implement the calculations! Remember: BMI = mass / height ** 2 = mass / (height * height). (mass in kg and height in meter)
+
+1. For each of them, create an object with properties for theis full name, mass, and height (Mark Miller and John Smith)
+2. Create a 'calcBMI' method on each object to calculate the BMI (the same method on both objects). Store the BMI vlaue to a property, and also return it from the method.
+3. Log to the console who has the higher BMI, together with the full name and the respective BMU. Example: "John Smith's BMI (28.3) is higher than Mark MIller's (23.9) !"
+
+TEST DATA: Marks weights 78 kg and is 1.69 m tall.
+John weights 92 kg and is 1.95 m tall.
+*/
+
+const john = {
+    fullName: 'John Smith',
+    mass: 92,
+    height: 1.95,
+    calcBMI: function (){
+        this.bmi = this.mass / (this.height ** 2);
+        return this.bmi;
+    }
+};
+const mark = {
+    fullName: 'Mark Miller',
+    mass: 78,
+    height: 1.69,
+    calcBMI: function (){
+        this.bmi = this.mass / (this.height ** 2);
+        return this.bmi;
+    }
+};
+john.calcBMI(); 
+mark.calcBMI();
+console.log(`${john.bmi >= mark.bmi ? john.fullName : mark.fullName}'s BMI (${john.bmi >= mark.bmi ? john.bmi : mark.bmi}) is higher than ${john.bmi >= mark.bmi ? mark.fullName : john.fullName}'s (${john.bmi >= mark.bmi ? mark.bmi : john.bmi})`);
