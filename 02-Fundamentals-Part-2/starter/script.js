@@ -513,7 +513,7 @@ This time, let's use objects to implement the calculations! Remember: BMI = mass
 TEST DATA: Marks weights 78 kg and is 1.69 m tall.
 John weights 92 kg and is 1.95 m tall.
 */
-
+/* 
 const john = {
     fullName: 'John Smith',
     mass: 92,
@@ -535,3 +535,32 @@ const mark = {
 john.calcBMI(); 
 mark.calcBMI();
 console.log(`${john.bmi > mark.bmi ? john.fullName : mark.fullName}'s BMI (${john.bmi > mark.bmi ? john.bmi : mark.bmi}) is higher than ${john.bmi > mark.bmi ? mark.fullName : john.fullName}'s (${john.bmi > mark.bmi ? mark.bmi : john.bmi})`);
+ */
+
+
+///////////////////////////////
+// 46 Iteration: The 'for Loop'
+// Control structures - if/else is one of them as is 'for' loop - that allow us to repeat tasks until we tell it to stop
+
+//Repetitive way
+/* console.log('Lifting weights repetition 1 🏋️‍♀️');
+console.log('Lifting weights repetition 2 🏋️‍♀️');
+console.log('Lifting weights repetition 3 🏋️‍♀️');
+console.log('Lifting weights repetition 4 🏋️‍♀️');
+console.log('Lifting weights repetition 5 🏋️‍♀️');
+console.log('Lifting weights repetition 6 🏋️‍♀️');
+console.log('Lifting weights repetition 7 🏋️‍♀️');
+console.log('Lifting weights repetition 8 🏋️‍♀️');
+console.log('Lifting weights repetition 9 🏋️‍♀️');
+console.log('Lifting weights repetition 10 🏋️‍♀️');
+ */
+
+//Looking similar to if/else statement, the 'for' loop has three parts: the first part is the initial value of a counter hold into a variable; the second part is a logical condition that is evaluated before each iteration of the loop (each code execution): if the condition is true then the next loop iteration will run, and as soon its false, then the loop stop; the third part is to update the counter each iteration; That's necessary because otherwise the counter will just stay at one forever => ('rep = rep + 1' = 'rep ++')
+/* for(let rep = 1; rep <= 10; rep++){
+    console.log(`Lifting weights repetition ${rep} 🏋️‍♀️`); // the ${rep} will print updating the number of repetitions, printing ALL the 10 repetitions in to the console
+}
+ */
+
+///////////////////////////////
+// 47 Looping Arrays, Breaking and Continuing
+
