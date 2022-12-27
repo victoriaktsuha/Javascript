@@ -564,3 +564,59 @@ console.log('Lifting weights repetition 10 🏋️‍♀️');
 ///////////////////////////////
 // 47 Looping Arrays, Breaking and Continuing
 
+//In this case, we want to log to the console each elements of the array
+const person = [
+    'firstName',
+    'lastName',
+    2037 - 1991,
+    'job',
+    ['friend1', 'friend2', 'friend3'],
+    true
+];
+//Here we start with 0 because its an array; In the logical condition, instead using 'i < 5', we use 'person.length', since we want to reuse the code even when a new element is added and we could not know the elements number in the array also:
+/* for (let i = 0; i < person.length; i++){
+    console.log(person[i], typeof person[i]); // 'typeof person[i]' will print as well the type of the element (string, number, boolean...)
+}
+ */
+
+//now, we want to create a new array which will contain all the types for all the original object elements:
+
+const types = [];
+
+for (let i = 0; i < person.length; i++){
+    console.log(person[i], typeof person[i]); // 'typeof person[i]' will print as well the type of the element (string, number, boolean...)
+
+    //One of the ways to fill the 'types' array with the type of each element of the 'person' object
+    /* types[i] = typeof person[i];  */ // It means 'type[0]' is equals to 'typeof person[0]'
+    
+    //Another way to fill the 'types' array - push is a property to add elements to the end of an array
+    types.push(typeof person[i]);
+}
+
+console.log(types);// => (6) ['string', 'string', 'number', 'string', 'object', 'boolean']
+
+//We want to calculate the age according to the years
+const years = [1991, 2007, 1969, 2020];
+const ages = [];
+
+for (let i = 0; i < years.length; i++){
+    ages.push(2037 - years[i]);
+}
+
+console.log(ages); // => (4) [46, 30, 68, 17]
+
+// continue: is to exit the current iteration of the loop and continue to the next one & break: used to completely terminate the whole loop
+
+//In this case, we want to log only strings to the console (continue)
+console.log('=== ONLY STRINGS ===')
+for (let i = 0; i < person.length; i++){
+    if(typeof person[i] !== 'string') continue; // if the type of the current element is not a string, then continue to the next one
+    console.log(person[i], typeof person[i]);  // => firstName string, lastName string, job string
+}
+
+//In this case, after a number element is found, nothing should be printe anymore (break)
+console.log('=== BREAK W/ NUMBER ===')
+for (let i = 0; i < person.length; i++){
+    if(typeof person[i] === 'number') break; // if the type of the current element is a number, then the loop is terminate
+    console.log(person[i], typeof person[i]);  // => firstName string, lastName string (finishs here because the next array element is '2037-1991')
+}
