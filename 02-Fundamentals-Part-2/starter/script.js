@@ -563,7 +563,7 @@ console.log('Lifting weights repetition 10 🏋️‍♀️');
 
 ///////////////////////////////
 // 47 Looping Arrays, Breaking and Continuing
-
+/* 
 //In this case, we want to log to the console each elements of the array
 const person = [
     'firstName',
@@ -574,10 +574,10 @@ const person = [
     true
 ];
 //Here we start with 0 because its an array; In the logical condition, instead using 'i < 5', we use 'person.length', since we want to reuse the code even when a new element is added and we could not know the elements number in the array also:
-/* for (let i = 0; i < person.length; i++){
+for (let i = 0; i < person.length; i++){
     console.log(person[i], typeof person[i]); // 'typeof person[i]' will print as well the type of the element (string, number, boolean...)
 }
- */
+
 
 //now, we want to create a new array which will contain all the types for all the original object elements:
 
@@ -587,7 +587,7 @@ for (let i = 0; i < person.length; i++){
     console.log(person[i], typeof person[i]); // 'typeof person[i]' will print as well the type of the element (string, number, boolean...)
 
     //One of the ways to fill the 'types' array with the type of each element of the 'person' object
-    /* types[i] = typeof person[i];  */ // It means 'type[0]' is equals to 'typeof person[0]'
+    //types[i] = typeof person[i]; // It means 'type[0]' is equals to 'typeof person[0]'
     
     //Another way to fill the 'types' array - push is a property to add elements to the end of an array
     types.push(typeof person[i]);
@@ -620,3 +620,32 @@ for (let i = 0; i < person.length; i++){
     if(typeof person[i] === 'number') break; // if the type of the current element is a number, then the loop is terminate
     console.log(person[i], typeof person[i]);  // => firstName string, lastName string (finishs here because the next array element is '2037-1991')
 }
+ */
+
+///////////////////////////////
+// 48 Looping Backwards and Loops in Loops
+
+const person = [
+    'firstName',
+    'lastName',
+    2037 - 1991,
+    'job',
+    ['friend1', 'friend2', 'friend3']
+];
+// 0, 1, ..., 4
+// 4, 3, ..., 0 - backwards
+
+for (let i = person.length - 1; i >= 0; i--){
+    //we need to use 'let i = person.length - 1' because otherwise the last element order will be 5, but since we start arrays in 0, the last element order is actually 4, and in this case element order 5 will be undefined - and that will be so on with new elements 
+    console.log(i, person[i]);
+}
+
+// In his case we have 3 exercises that will be repeated 5 times each (15 repetitions)
+for (let exercise = 1; exercise < 4; exercise++){ //=> 'exercise < 4' = 'exercise <= 3'
+    console.log(`==========Starting exercise ${exercise}`);
+
+    for (let rep = 1; rep < 6; rep++){
+        console.log(`Exercise ${exercise}: Lifting weight repetition ${rep} 🏋️‍♀️`);
+    }
+}
+//When the first iteration code exit, the second starts, then it backs to the first to run again and when it exits return to the second one, until all the structure is completed
