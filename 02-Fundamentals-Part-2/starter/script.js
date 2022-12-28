@@ -624,7 +624,7 @@ for (let i = 0; i < person.length; i++){
 
 ///////////////////////////////
 // 48 Looping Backwards and Loops in Loops
-
+/* 
 const person = [
     'firstName',
     'lastName',
@@ -649,3 +649,29 @@ for (let exercise = 1; exercise < 4; exercise++){ //=> 'exercise < 4' = 'exercis
     }
 }
 //When the first iteration code exit, the second starts, then it backs to the first to run again and when it exits return to the second one, until all the structure is completed
+ */
+
+///////////////////////////////
+// 49 The while Loop - its very similar to 'for' loop, still including 3 parts (start value, condition and iteration), but with a diferent structure:
+/* 
+// 'for' loop
+for(let rep = 1; rep <= 10; rep++){
+    console.log(`Lifting weights repetition ${rep} 🏋️‍♀️`); 
+}
+
+//'while' loop
+let rep = 1;
+while (rep <= 10) {
+    console.log(`WHILE: Lifting weights repetition ${rep} 🏋️‍♀️`); 
+    rep++;
+}
+//'while' is more flexible because it doesn't need a counter or a iteration to run, it just need the condiytion. In the case below, we want to roll a dice until we get a 6, we don't need to or don't know how many times the dice will roll
+let dice = Math.trunc(Math.random() * 6)  + 1; //explanations later 
+//console.log(dice);
+
+while (dice !== 6){
+    console.log(`You rolled a ${dice}`);
+    dice = Math.trunc(Math.random() * 6) + 1;
+    if (dice === 6) console.log('Loop is about to end...');
+}
+ */
