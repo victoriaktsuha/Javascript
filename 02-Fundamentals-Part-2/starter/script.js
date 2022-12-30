@@ -696,6 +696,7 @@ HINT: Call calcTip in the loop and use the push method to add values to the tips
     4.2 To calculate the average, divide the sum you calculated before by the lenght of the array (because that's the number of elements)
     4.3 Call the function with the 'totals' array
 */
+/* 
 const calcTip = bills => bills >= 50 && bills <= 300 ? bills*0.15 : bills*0.2;
 
 const bills = [22, 29, 176, 440, 37, 105, 10, 1100, 86, 52];
@@ -706,8 +707,8 @@ for (let i = 0; i < bills.length; i++){
     const tip = calcTip(bills[i]);
     tips.push(tip);
     totals.push(tip + bills[i]);
-    /* tips.push(calcTip(bills[i]));
-    totals.push(calcTip(bills[i]) + tips[i]); */
+    //tips.push(calcTip(bills[i]));
+    //totals.push(calcTip(bills[i]) + tips[i]);
 }
 console.log(bills, tips, totals);
 
@@ -722,3 +723,11 @@ const calcAverage = function (arr){
 console.log(calcAverage([2, 3, 7]));
 console.log(calcAverage(totals));
 console.log(calcAverage(tips));
+ */
+
+//////////////  SECTION 4  /////////////////
+
+///////////////////////////////
+// 51 Pathways and Section Roadmaps
+///////////////////////////////
+// 52 Pathways
