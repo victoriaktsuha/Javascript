@@ -1,16 +1,16 @@
-'use strict';
+"use strict";
 
 ///////////////////////////////
-// 32 Activating Strict Mode 
+// 32 Activating Strict Mode
 
 /* Make it easier to write a secure JS code adding 'use strict' to the begining of the code - any code before this line will defeat the strict mode, except for comments. It's secure because it forbid us to do certain things and it'll show us our mistake clearer in the console, like wrong grammar, using reserved words, etc
-*/
+ */
 
 ///////////////////////////////
 // 33 Functions
 
 /*Functions can be used over and over - variables holds values and functions hols more line of code. It receives data and return data back. Between (), the function receive 'parameters', representing the input data of this function, like emty spaces that we'll fill out when we invoke the function.
-*/
+ */
 
 /* function logger() {
     console.log('My name is Vic');//this function just print/log a message to the console, it doesn't return/produce a value
@@ -38,7 +38,6 @@ console.log(appleJuice); */
 /* const appleOrangeJuice = fruitProcessor(2, 4);
 console.log(appleOrangeJuice); */
 
-
 ///////////////////////////////
 // 34 Functions Declarations vs Expressions
 
@@ -50,7 +49,6 @@ console.log(appleOrangeJuice); */
     //we can return the expression directly on the result without store it in a variable
 }
 const age1 = calcAge1(1994); */
-
 
 // Function Expression
 /*We can't call functions expressions before they are defined because a process called hoisting*/
@@ -67,7 +65,6 @@ console.log(age1, age2); */
 /*function is not a type, its a value; So if it's a value, we can store it in a variable*/
 /* the purposes to use one instead another can be just a personal taste*/
 
-
 ///////////////////////////////
 // 35 Arrow Functions
 
@@ -82,7 +79,6 @@ const age2 = calcAge2(1994); */
 const age3 = calcAge3(1994);
 console.log(age3); */
 /* 'birthYear' still as your parameter, then add the arrow '=>', and after that, you write what you want to return, removing the need of the curly braces and the 'return' keyword - you still need to store it in a variable to be able to use the result. Everything after the '=' sign is a value */
-
 
 /* const yearsUntilRetirement = birthYear => {
     const age = 2022 - birthYear;
@@ -102,7 +98,6 @@ console.log(yearsUntilRetirement(1970, 'Bob')); */
 /*Wrap the parameter with () if you need to write more parameters */
 /*It's preferred that arrow functions be used to one-line codes, but its not a rule */
 
-
 ///////////////////////////////
 // 36 Functions calling other functions
 /* brief: Considering the function 'fruitProcessor' as a machine that make us juice, now we need a machine that cuts the fruits into pieces before putting them in the juice machine*/
@@ -119,7 +114,6 @@ function fruitProcessor(apples, oranges){
     return juice; 
 }
 console.log(fruitProcessor(2, 3)); */
-
 
 ///////////////////////////////
 // 37 Reviewing Functions
@@ -149,7 +143,6 @@ console.log(yearsUntilRetirement(1994, 'Bob'));
 console.log(yearsUntilRetirement(1970, 'Mike'));
  */
 //The console.log does not have anything with the function itself. It's just print a message in the console. Actually, it's a fucntion itself
-
 
 ///////////////////////////////
 // 38 Coding Challenge #1 (Section 2)
@@ -187,12 +180,12 @@ const checkWinner = function(avgDolphins, avgKoalas){
 console.log(checkWinner(138, 168)); */
 /*What's Wrong ? 
 - the variables that calculate the average score should be out of the function expression;
-- the arrow function could receive all the 3 scores or not;
+- the arrow function could receive all the 3 scores or not, but should have the 3 parameters;
 - the 'return' wasn't actually necessary
 - call the function expression without console.log (it will consider it 'undefined'), inputing the scores out of the function as arguments
 */
 
-// Course Solution 
+// Course Solution
 
 /* const calcAverage = (a, b, c) => (a + b + c) / 3;
 
@@ -221,7 +214,6 @@ scoreKoalas = calcAverage(23, 34, 27);
 //Just call the function again :)
 checkWinner(scoreDolphins, scoreKoalas); */
 
-
 ///////////////////////////////
 // 39 Arrays
 
@@ -246,8 +238,8 @@ console.log(vars[2]);
 //We can also retrieve the actual number of elements in the array:
 console.log(vars.length); //length is a property
 
-//We can use this to automatically retrieve the last element of any Array - so we don't need to count hou many elements are in the array:
-console.log(vars[vars.length - 1]); // we need to subtract -1 because the array has 0 base order, so even we have 3 elements, the last one will be in order 2; inside the brackest [] JS expects an expresison, not an statement
+//We can use this to automatically retrieve the last element of any Array - so we don't need to count how many elements are in the array:
+console.log(vars[vars.length - 1]); // we need to subtract -1 because the array has 0 base order, so even we have 3 elements, the last one will be in order 2; inside the brackest [] JS expects an expression, not an statement
 
 //The brackets [] can be used not just to retrieve but to change elements into the array
 vars[2] = 'T';
@@ -329,7 +321,6 @@ if(vars.includes('A')){
     console.log(`You dont have the letter A`);
 };
  */
-
 
 ///////////////////////////////
 // 41 Coding Challenge #2
@@ -537,7 +528,6 @@ mark.calcBMI();
 console.log(`${john.bmi > mark.bmi ? john.fullName : mark.fullName}'s BMI (${john.bmi > mark.bmi ? john.bmi : mark.bmi}) is higher than ${john.bmi > mark.bmi ? mark.fullName : john.fullName}'s (${john.bmi > mark.bmi ? mark.bmi : john.bmi})`);
  */
 
-
 ///////////////////////////////
 // 46 Iteration: The 'for Loop'
 // Control structures - if/else is one of them as is 'for' loop - that allow us to repeat tasks until we tell it to stop
@@ -724,7 +714,6 @@ console.log(calcAverage([2, 3, 7]));
 console.log(calcAverage(totals));
 console.log(calcAverage(tips));
  */
-
 
 //////////////  SECTION 4  /////////////////
 
