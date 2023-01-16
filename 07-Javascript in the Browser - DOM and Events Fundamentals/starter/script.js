@@ -81,7 +81,7 @@ const secretNumber = Math.trunc(Math.random() * 20) + 1;
 //here we set the initial score in var because it'll repeat in the 'too high' and 'too low' conditions; Initially it was just in the DOM (HMTL), but its a very good practice to store data in the code
 let score = 20;
 //To see if this logic is running, we'll display it in the main box as its own text and every time we reload the page, we'll should see a different number:
-document.querySelector('.number').textContent = secretNumber;
+document.querySelector('.number').textContent = secretNumber; //This line need to be ,pved to the code piece when the user wins, so the secret number doesn't appear
 // The click event doesn't reload the page
 document.querySelector('.check').addEventListener('click', function () {
   //Remembering: when we retrieve a value from a input on UI, it'll be initially a string. Depending on the objective of the code, we'll need to transform it with Number().
@@ -120,10 +120,10 @@ document.querySelector('.check').addEventListener('click', function () {
 
 //////////////////////////////
 // 75 Manipulating CSS Styles
-
+/* 
 const secretNumber = Math.trunc(Math.random() * 20) + 1;
 let score = 20;
-document.querySelector('.number').textContent = secretNumber;
+
 document.querySelector('.check').addEventListener('click', function () {
   const guess = Number(document.querySelector('.guess').value);
   console.log(guess, typeof guess);
@@ -135,6 +135,7 @@ document.querySelector('.check').addEventListener('click', function () {
     //When player wins
   } else if (guess === secretNumber) {
     document.querySelector('.message').textContent = '🎉 Correct Number!';
+    document.querySelector('.number').textContent = secretNumber;
     document.querySelector('body').style.backgroundColor = '#60b347';
     document.querySelector('.number').style.width = '30rem';
 
@@ -162,4 +163,210 @@ document.querySelector('.check').addEventListener('click', function () {
       //document.querySelector('body').style.backgroundColor = 'darkred';
     }
   }
+});
+ */
+
+//////////////////////////////
+// 76 Coding Challenge #1
+
+/*
+Implementa gaem reset functionality, so that the payler can make a new gues! Here is jow:
+
+1. Select the element with the 'again' class and attach a click event handler
+2. In the handler function, restore initial values of the score and number variables
+3. Restore the initial condition of the message, number, score and guess input field
+4. Also restore the original background color (#222) and number width (15rem)
+*/
+/* 
+let secretNumber = Math.trunc(Math.random() * 20) + 1;
+let score = 20;
+
+document.querySelector('.check').addEventListener('click', function () {
+  const guess = Number(document.querySelector('.guess').value);
+  console.log(guess, typeof guess);
+
+  // When there is no input
+  if (!guess) {
+    document.querySelector('.message').textContent = 'No number!';
+
+    //When player wins
+  } else if (guess === secretNumber) {
+    document.querySelector('.message').textContent = '🎉 Correct Number!';
+    document.querySelector('.number').textContent = secretNumber;
+    document.querySelector('body').style.backgroundColor = '#60b347';
+    document.querySelector('.number').style.width = '30rem';
+
+    // When guess is too high
+  } else if (guess > secretNumber) {
+    if (score > 1) {
+      document.querySelector('.message').textContent = '📈 Too high!';
+      score--;
+      document.querySelector('.score').textContent = score;
+    } else {
+      document.querySelector('.message').textContent = '💥 You lost the game!';
+      document.querySelector('.score').textContent = 0;
+      //document.querySelector('body').style.backgroundColor = 'darkred';
+    }
+
+    // When guess is too low
+  } else if (guess < secretNumber) {
+    if (score > 1) {
+      document.querySelector('.message').textContent = '📉 Too low!';
+      score--;
+      document.querySelector('.score').textContent = score;
+    } else {
+      document.querySelector('.message').textContent = '💥 You lost the game!';
+      document.querySelector('.score').textContent = 0;
+      //document.querySelector('body').style.backgroundColor = 'darkred';
+    }
+  }
+});
+// Reload page and restore - my solution
+document.querySelector('.again').addEventListener('click', function () {
+  document.location.reload(); //we can use it, but later when the highscore should be stored, if we ralod the page, we'll lose it
+});
+
+// Reload page and restore - course solution
+document.querySelector('.again').addEventListener('click', function () {
+  score = 20;
+  secretNumber = Math.trunc(Math.random() * 20) + 1;
+
+  document.querySelector('.message').textContent = 'Start guessing...';
+  document.querySelector('.score').textContent = score;
+  document.querySelector('.number').textContent = '?';
+  document.querySelector('.guess').value = '';
+
+  document.querySelector('body').style.backgroundColor = '#222';
+  document.querySelector('.number').style.width = '15rem';
+});
+ */
+
+//////////////////////////////
+// 77 Implementing Highscore
+/* 
+let secretNumber = Math.trunc(Math.random() * 20) + 1;
+let score = 20;
+let highscore = 0;
+
+document.querySelector('.check').addEventListener('click', function () {
+  const guess = Number(document.querySelector('.guess').value);
+  console.log(guess, typeof guess);
+
+  // When there is no input
+  if (!guess) {
+    document.querySelector('.message').textContent = 'No number!';
+
+    //When player wins
+  } else if (guess === secretNumber) {
+    document.querySelector('.message').textContent = '🎉 Correct Number!';
+    document.querySelector('.number').textContent = secretNumber;
+    document.querySelector('body').style.backgroundColor = '#60b347';
+    document.querySelector('.number').style.width = '30rem';
+
+    if (score > highscore) {
+      highscore = score;
+      document.querySelector('.highscore').textContent = highscore;
+    }
+
+    // When guess is too high
+  } else if (guess > secretNumber) {
+    if (score > 1) {
+      document.querySelector('.message').textContent = '📈 Too high!';
+      score--;
+      document.querySelector('.score').textContent = score;
+    } else {
+      document.querySelector('.message').textContent = '💥 You lost the game!';
+      document.querySelector('.score').textContent = 0;
+      //document.querySelector('body').style.backgroundColor = 'darkred';
+    }
+
+    // When guess is too low
+  } else if (guess < secretNumber) {
+    if (score > 1) {
+      document.querySelector('.message').textContent = '📉 Too low!';
+      score--;
+      document.querySelector('.score').textContent = score;
+    } else {
+      document.querySelector('.message').textContent = '💥 You lost the game!';
+      document.querySelector('.score').textContent = 0;
+      //document.querySelector('body').style.backgroundColor = 'darkred';
+    }
+  }
+});
+
+document.querySelector('.again').addEventListener('click', function () {
+  score = 20;
+  secretNumber = Math.trunc(Math.random() * 20) + 1;
+
+  document.querySelector('.message').textContent = 'Start guessing...';
+  document.querySelector('.score').textContent = score;
+  document.querySelector('.number').textContent = '?';
+  document.querySelector('.guess').value = '';
+
+  document.querySelector('body').style.backgroundColor = '#222';
+  document.querySelector('.number').style.width = '15rem';
+});
+ */
+
+//////////////////////////////
+// 78 Refactoring Our Code: The DRY Principle
+
+let secretNumber = Math.trunc(Math.random() * 20) + 1;
+let score = 20;
+let highscore = 0;
+//Created a function to avoid repeating the code '.textContent', that will display the string that will be pass as argument 'message'
+const displayMessage = function (message) {
+  document.querySelector('.message').textContent = message;
+};
+
+document.querySelector('.check').addEventListener('click', function () {
+  const guess = Number(document.querySelector('.guess').value);
+  console.log(guess, typeof guess);
+
+  // When there is no input
+  if (!guess) {
+    // document.querySelector('.message').textContent = 'No number!';
+    displayMessage('No number!'); //refactored
+
+    //When player wins
+  } else if (guess === secretNumber) {
+    // document.querySelector('.message').textContent = '🎉 Correct Number!';
+    displayMessage('🎉 Correct Number!');
+    document.querySelector('.number').textContent = secretNumber;
+    document.querySelector('body').style.backgroundColor = '#60b347';
+    document.querySelector('.number').style.width = '30rem';
+
+    if (score > highscore) {
+      highscore = score;
+      document.querySelector('.highscore').textContent = highscore;
+    }
+    //When guess is wrong ('too high' + 'too low' code) - refactored
+  } else if (score !== secretNumber) {
+    if (score > 1) {
+      // document.querySelector('.message').textContent =
+      //   guess > secretNumber ? '📈 Too high!' : '📉 Too low!'; //turnery operator
+      displayMessage(guess > secretNumber ? '📈 Too high!' : '📉 Too low!'); //refactored - Still turnery operator ;)
+      score--;
+      document.querySelector('.score').textContent = score;
+    } else {
+      // document.querySelector('.message').textContent = '💥 You lost the game!';
+      displayMessage('💥 You lost the game!'); //refactored
+      document.querySelector('.score').textContent = 0;
+      //document.querySelector('body').style.backgroundColor = 'darkred';
+    }
+  }
+});
+
+document.querySelector('.again').addEventListener('click', function () {
+  score = 20;
+  secretNumber = Math.trunc(Math.random() * 20) + 1;
+
+  // document.querySelector('.message').textContent = 'Start guessing...';
+  displayMessage('Start guessing...'); //refactored
+  document.querySelector('.score').textContent = score;
+  document.querySelector('.number').textContent = '?';
+  document.querySelector('.guess').value = '';
+
+  document.querySelector('body').style.backgroundColor = '#222';
+  document.querySelector('.number').style.width = '15rem';
 });
