@@ -40,7 +40,7 @@
 ///////////////////////////
 // 91 Execution Contexts and The Call Stack
 
-/**How JS is executed ? 
+/**How JS is executed ?
  * We already know that it happens in the call stack
  * Lets suppose that our code is finished compiling, beign ready to be executed -> global executoin context is created for top-level code; Top-level code is the code that is NOT inside a function, so in the begining, only the code that is outside of functions will be executed. And its make sense because funtions should be only executed when they are called. In the example below:
  * const name = `Name`; const first = () => { let a = 1; const b = second(); a += b; return a;}; function second(){var c = 2; return c;};
@@ -58,4 +58,12 @@
  * => this keyword (not in an arrow function)
  * All of this is generated during a phase called `creation`, right before execution
  * Important: EC belonging to arrow functions DO NOT get their own arguments keyword, nor get the this keyword
-*/
+ * To simulate the creation phase, lets take the sample below:
+ * const name = `Name`; const first = () => { let a = 1; const b = second(); a += b; return a;}; function second(x, y){var c = 2; return c;}; const x = first();
+ * We're going to have an execution global context for each function:
+ * (Global context) Global: name = Name / first = <function> / second = <function>/ x = <unknown> -> x is unknown because the 'first()' function need to be executed first, and in the first context, we have just the declarations, not functions
+ * ('first()' function context): a = 1 / b = <unknown> -> both declarations belonging to the 'first()' function and once again the <unknown> in reason to the function that needs to be executed first (in the next context)
+ * ('second()' function context): c = 2 / arguments = [7 ,9] -> the arguments is refer to the 'const b = second(7 ,9)' declared in the previously function
+ * Then, this execution contexts are stacked on top of each other in the call stack, to keep track of where we are in the execution - what is on top, is the one that is currently running; When its finished running, it will be removed from call stack and execution will go back to the previous execution context - the first context will be place in the bottom on the call stack, and so on - thats because JS haas only one execution thread, so it ca only execute one thing at time, pausing a context when other is create and going back to the paused when the currently is finished, working as a map
+ * Global context in the call stack is just 'finished' when we close the browser tab/window (its was the last in the stack)
+ */
