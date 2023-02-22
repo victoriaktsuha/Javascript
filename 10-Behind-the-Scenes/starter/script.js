@@ -67,3 +67,29 @@
  * Then, this execution contexts are stacked on top of each other in the call stack, to keep track of where we are in the execution - what is on top, is the one that is currently running; When its finished running, it will be removed from call stack and execution will go back to the previous execution context - the first context will be place in the bottom on the call stack, and so on - thats because JS haas only one execution thread, so it ca only execute one thing at time, pausing a context when other is create and going back to the paused when the currently is finished, working as a map
  * Global context in the call stack is just 'finished' when we close the browser tab/window (its was the last in the stack)
  */
+
+///////////////////////////
+// 92 Scope and The Scope Chain
+
+/*
+ * - We've learned that each execution context has a variable environment, a scope chain and a 'this' keyword
+ * What's a scope and a scope chain, whye they're important and how they work
+ * Scope concept:
+ * - Scoping: How our program's variables are organized and accessed. "Where do variables live ?" or "Where can we access a certain variable, and where not ?";
+ * - Lexical scoping: Scoping is controlled by placement of functions and blocks in the code; Variable scoping is influenced by where we write our functions and block of codes -> a 'function-child' can access a varible in the 'function-parent' for example;
+ * - Scope: Space or envinronment in which a certain variable is declared (variable environment in case of functions). There is global scope, fucntion scope and block scope;
+ * - Whats the difference btw the scope and the variable environment ? In the case of a function, it's the same.
+ * - Scope of a variable: Region of our code where a certain variable can be accessed
+ * The 3 types of a scope:
+ * => Global scope: its for variables outside of any function or block; Variables declared in global scope are accessible everywhere
+ * => Function Scope: Each and every fucntion creates a scope; Variables are acessible only inside function, NOT outside; Also called local scope;
+ * => Block Scope (ES6): Exemple of blocks is if block, loop block, etc - everything that in between braces {}; They also create a scope and variables are only acessible inside the block; However, this only applies to let and const variables! - that's why we say that let and const are block scoped, and to be able to access variables outside the block, declare it with 'var' (var has a function scope). Before the ES6, variables declared as var only cared about functions, ignoring blocks; So in the ES6, all fucntions are also block scoped (only in strict mode); So functions declared inside a block, is only accessible inside that block;
+ *  Scope chain:
+ * - The scope access to other variables and funtions inside other scopes works as the same as heritage: the second scope can access variables inside the first scope, as the first scope can access variable in the global scope - second scope can also access variables in the global scope because it's the 'parent' of it all
+ * - Variable Lookup is the process of searching a variable for all the scope chain until find it; These variables are not copied, they're just used; And thi lookup DO NOT work in reverse - it just search from the inside scope to external scopes: only parent scope can be used, but no child scope
+ *  - 'siblings' scopes CANNOT access each others variables, because they're not written inside in one another
+ * Scope chain vs Call Stack:
+ * - Call Stack is the order the functions are called
+ * - Scope chain is the order in which functions are written in the code
+ * The Scope chain has NOTHING to do with the order of the execution context in the call stack; The order that the functions are called is not relevant for the scope chain
+ */
