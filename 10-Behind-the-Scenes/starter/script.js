@@ -93,3 +93,56 @@
  * - Scope chain is the order in which functions are written in the code
  * The Scope chain has NOTHING to do with the order of the execution context in the call stack; The order that the functions are called is not relevant for the scope chain
  */
+
+
+///////////////////////////
+// 93 Scoping in Practice
+
+/*This calcAge is defined in the global scope*/
+function calcAge(birthYear){
+    const age = 2030 - birthYear;
+    //console.log(firstName); //this var is not actually in the scope of this function, but since it is a global variable, it can be access in this scope too
+
+    function printAge(){
+        let output = `${firstName}, you're ${age} yo, born in ${birthYear}`;
+        console.log(output);
+        //This function scope can access age and birthYear values because they belong to this function parent, this variables cannot be access outside its own function or its parent function; It can also access firstName because its in global scope
+
+        /*block scope*/
+        if(birthYear >= 1981 && birthYear <= 1996){
+            var millenial = true;
+
+            // Creating NEW variable with same name as outer scope's variable
+            const firstName = 'Bob'; //=> in the variable 'str', the JS will change 'Vic'(assigned in the global scope) to 'Bob'(assigned inside this own scope) because the variables inside the function scope has priority then the global variables; Outside this block scope, the firstName variable still holds the value 'Vic' assigned before 
+
+            // Reassigning outer scope's variables
+            output = 'new output'; //here we're assign a new value to a variable that is defined inside the parent scope, and it works because the value is just reassign, its not creating a new variable; If it was a new 'const' or 'let' variable called 'output', then the console would show the first value assigned before "Vic, you're 36 yo, born in 1994" - obs.: if you try create a new variable 'output' with var, the error message will say that this variable is already defined, since 'var' can reach a global scope and scale to parents scopes, resulting in ths conflict
+            const str = `Oh, and you're also a millenial, ${firstName}`;
+
+            console.log(str);
+            //=> the scope of the add function is just inside the block scope where its created, thats because the `use strict` mode in top of the file
+            function add (a, b){
+                return a + b;
+            }
+
+            
+        }
+        // console.log(str); 
+        //=> if we try to log this console.log(str); outside the block scope, it wont be found and we `ll get an error - thats because const and let can be access just inside the block scope, unless it is a global variable or a var inside the block scope
+
+        console.log(millenial); 
+        //=> millenal can be access because even declared inside the block scope, it was declared as 'var', in the printAge function scope, unlike the const and let cases that is limited 
+
+        // add(2, 3); 
+        //=> we'll get an error because the scope of this fucntion is just inside the block scope where its created, because the strict mode on top of this file
+        // console.log(add(2,3)); //=>after disable strict mode, we log the function to console and we`ll be able to see its result
+
+        console.log(output); //here we're printing the new value of a variable that was reassigned inside a child scope
+    }
+    printAge();
+    return age;
+}
+/*Also this function creates its own scope and that scope will be equivalent to the variable environment of its execution context*/
+
+/*Global variable (global environment)*/ const firstName = 'Vic';
+calcAge(1994);
