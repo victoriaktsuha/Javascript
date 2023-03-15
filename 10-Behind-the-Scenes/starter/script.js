@@ -14,7 +14,7 @@
  * => Dynamic: JS is a dynamically-typed language, meaning that, for example, we don't assign data types to variables. Types becomes known at runtime. Also variable type can easily be change as we reassign in variables. The same is not true for the most of programming languages, where we need to assign manually the variable types;
  * => Single-threaded: & Non-blocking event loop: Let's strat with concurrency model: its how the JS engine handles multipe tasks happening at the same time. And why do we need that ? Because the JS runs in one single thread, so it can only do one thing at a time. In computing, a thread is like a set of instructions that runs in CPU. so basically, thread is where our code is actually executed in a machines processor. So what about a long-running task, like fetching data from a remote serve ? Sounds like it would block the single thread. However, we want a non-blocking behavior. And how do we achieve that ? Ny using an event loop: takes long running tasks, executes them in the "backgorund", and puts them back in the main thread once they're finished
 
- */
+*/
 
 /////////////////
 // 90 The JavaScript Engine and Runtime
@@ -72,27 +72,27 @@
 // 92 Scope and The Scope Chain
 
 /*
- * - We've learned that each execution context has a variable environment, a scope chain and a 'this' keyword
- * What's a scope and a scope chain, whye they're important and how they work
- * Scope concept:
- * - Scoping: How our program's variables are organized and accessed. "Where do variables live ?" or "Where can we access a certain variable, and where not ?";
- * - Lexical scoping: Scoping is controlled by placement of functions and blocks in the code; Variable scoping is influenced by where we write our functions and block of codes -> a 'function-child' can access a varible in the 'function-parent' for example;
- * - Scope: Space or envinronment in which a certain variable is declared (variable environment in case of functions). There is global scope, fucntion scope and block scope;
- * - Whats the difference btw the scope and the variable environment ? In the case of a function, it's the same.
- * - Scope of a variable: Region of our code where a certain variable can be accessed
- * The 3 types of a scope:
- * => Global scope: its for variables outside of any function or block; Variables declared in global scope are accessible everywhere
- * => Function Scope: Each and every fucntion creates a scope; Variables are acessible only inside function, NOT outside; Also called local scope;
- * => Block Scope (ES6): Exemple of blocks is if block, loop block, etc - everything that in between braces {}; They also create a scope and variables are only acessible inside the block; However, this only applies to let and const variables! - that's why we say that let and const are block scoped, and to be able to access variables outside the block, declare it with 'var' (var has a function scope). Before the ES6, variables declared as var only cared about functions, ignoring blocks; So in the ES6, all fucntions are also block scoped (only in strict mode); So functions declared inside a block, is only accessible inside that block;
- *  Scope chain:
- * - The scope access to other variables and funtions inside other scopes works as the same as heritage: the second scope can access variables inside the first scope, as the first scope can access variable in the global scope - second scope can also access variables in the global scope because it's the 'parent' of it all
- * - Variable Lookup is the process of searching a variable for all the scope chain until find it; These variables are not copied, they're just used; And thi lookup DO NOT work in reverse - it just search from the inside scope to external scopes: only parent scope can be used, but no child scope
- *  - 'siblings' scopes CANNOT access each others variables, because they're not written inside in one another
- * Scope chain vs Call Stack:
- * - Call Stack is the order the functions are called
- * - Scope chain is the order in which functions are written in the code
- * The Scope chain has NOTHING to do with the order of the execution context in the call stack; The order that the functions are called is not relevant for the scope chain
- */
+* - We've learned that each execution context has a variable environment, a scope chain and a 'this' keyword
+* What's a scope and a scope chain, whye they're important and how they work
+* Scope concept:
+* - Scoping: How our program's variables are organized and accessed. "Where do variables live ?" or "Where can we access a certain variable, and where not ?";
+* - Lexical scoping: Scoping is controlled by placement of functions and blocks in the code; Variable scoping is influenced by where we write our functions and block of codes -> a 'function-child' can access a varible in the 'function-parent' for example;
+* - Scope: Space or envinronment in which a certain variable is declared (variable environment in case of functions). There is global scope, fucntion scope and block scope;
+* - Whats the difference btw the scope and the variable environment ? In the case of a function, it's the same.
+* - Scope of a variable: Region of our code where a certain variable can be accessed
+* The 3 types of a scope:
+* => Global scope: its for variables outside of any function or block; Variables declared in global scope are accessible everywhere
+* => Function Scope: Each and every fucntion creates a scope; Variables are acessible only inside function, NOT outside; Also called local scope;
+* => Block Scope (ES6): Exemple of blocks is if block, loop block, etc - everything that in between braces {}; They also create a scope and variables are only acessible inside the block; However, this only applies to let and const variables! - that's why we say that let and const are block scoped, and to be able to access variables outside the block, declare it with 'var' (var has a function scope). Before the ES6, variables declared as var only cared about functions, ignoring blocks; So in the ES6, all fucntions are also block scoped (only in strict mode); So functions declared inside a block, is only accessible inside that block;
+*  Scope chain:
+* - The scope access to other variables and funtions inside other scopes works as the same as heritage: the second scope can access variables inside the first scope, as the first scope can access variable in the global scope - second scope can also access variables in the global scope because it's the 'parent' of it all
+* - Variable Lookup is the process of searching a variable for all the scope chain until find it; These variables are not copied, they're just used; And thi lookup DO NOT work in reverse - it just search from the inside scope to external scopes: only parent scope can be used, but no child scope
+*  - 'siblings' scopes CANNOT access each others variables, because they're not written inside in one another
+* Scope chain vs Call Stack:
+* - Call Stack is the order the functions are called
+* - Scope chain is the order in which functions are written in the code
+* The Scope chain has NOTHING to do with the order of the execution context in the call stack; The order that the functions are called is not relevant for the scope chain
+*/
 
 
 ///////////////////////////
@@ -100,49 +100,77 @@
 
 /*This calcAge is defined in the global scope*/
 function calcAge(birthYear){
-    const age = 2030 - birthYear;
-    //console.log(firstName); //this var is not actually in the scope of this function, but since it is a global variable, it can be access in this scope too
+const age = 2030 - birthYear;
+//console.log(firstName); //this var is not actually in the scope of this function, but since it is a global variable, it can be access in this scope too
 
-    function printAge(){
-        let output = `${firstName}, you're ${age} yo, born in ${birthYear}`;
-        console.log(output);
-        //This function scope can access age and birthYear values because they belong to this function parent, this variables cannot be access outside its own function or its parent function; It can also access firstName because its in global scope
+function printAge(){
+    let output = `${firstName}, you're ${age} yo, born in ${birthYear}`;
+    console.log(output);
+    //This function scope can access age and birthYear values because they belong to this function parent, this variables cannot be access outside its own function or its parent function; It can also access firstName because its in global scope
 
-        /*block scope*/
-        if(birthYear >= 1981 && birthYear <= 1996){
-            var millenial = true;
+    /*block scope*/
+    if(birthYear >= 1981 && birthYear <= 1996){
+        var millenial = true;
 
-            // Creating NEW variable with same name as outer scope's variable
-            const firstName = 'Bob'; //=> in the variable 'str', the JS will change 'Vic'(assigned in the global scope) to 'Bob'(assigned inside this own scope) because the variables inside the function scope has priority then the global variables; Outside this block scope, the firstName variable still holds the value 'Vic' assigned before 
+        // Creating NEW variable with same name as outer scope's variable
+        const firstName = 'Bob'; //=> in the variable 'str', the JS will change 'Vic'(assigned in the global scope) to 'Bob'(assigned inside this own scope) because the variables inside the function scope has priority then the global variables; Outside this block scope, the firstName variable still holds the value 'Vic' assigned before 
 
-            // Reassigning outer scope's variables
-            output = 'new output'; //here we're assign a new value to a variable that is defined inside the parent scope, and it works because the value is just reassign, its not creating a new variable; If it was a new 'const' or 'let' variable called 'output', then the console would show the first value assigned before "Vic, you're 36 yo, born in 1994" - obs.: if you try create a new variable 'output' with var, the error message will say that this variable is already defined, since 'var' can reach a global scope and scale to parents scopes, resulting in ths conflict
-            const str = `Oh, and you're also a millenial, ${firstName}`;
+        // Reassigning outer scope's variables
+        output = 'new output'; //here we're assign a new value to a variable that is defined inside the parent scope, and it works because the value is just reassign, its not creating a new variable; If it was a new 'const' or 'let' variable called 'output', then the console would show the first value assigned before "Vic, you're 36 yo, born in 1994" - obs.: if you try create a new variable 'output' with var, the error message will say that this variable is already defined, since 'var' can reach a global scope and scale to parents scopes, resulting in ths conflict
+        const str = `Oh, and you're also a millenial, ${firstName}`;
 
-            console.log(str);
-            //=> the scope of the add function is just inside the block scope where its created, thats because the `use strict` mode in top of the file
-            function add (a, b){
-                return a + b;
-            }
-
-            
+        console.log(str);
+        //=> the scope of the add function is just inside the block scope where its created, thats because the `use strict` mode in top of the file
+        function add (a, b){
+            return a + b;
         }
-        // console.log(str); 
-        //=> if we try to log this console.log(str); outside the block scope, it wont be found and we `ll get an error - thats because const and let can be access just inside the block scope, unless it is a global variable or a var inside the block scope
 
-        console.log(millenial); 
-        //=> millenal can be access because even declared inside the block scope, it was declared as 'var', in the printAge function scope, unlike the const and let cases that is limited 
-
-        // add(2, 3); 
-        //=> we'll get an error because the scope of this fucntion is just inside the block scope where its created, because the strict mode on top of this file
-        // console.log(add(2,3)); //=>after disable strict mode, we log the function to console and we`ll be able to see its result
-
-        console.log(output); //here we're printing the new value of a variable that was reassigned inside a child scope
+        
     }
-    printAge();
-    return age;
+    // console.log(str); 
+    //=> if we try to log this console.log(str); outside the block scope, it wont be found and we `ll get an error - thats because const and let can be access just inside the block scope, unless it is a global variable or a var inside the block scope
+
+    console.log(millenial); 
+    //=> millenal can be access because even declared inside the block scope, it was declared as 'var', in the printAge function scope, unlike the const and let cases that is limited 
+
+    // add(2, 3); 
+    //=> we'll get an error because the scope of this fucntion is just inside the block scope where its created, because the strict mode on top of this file
+    // console.log(add(2,3)); //=>after disable strict mode, we log the function to console and we`ll be able to see its result
+
+    console.log(output); //here we're printing the new value of a variable that was reassigned inside a child scope
+}
+printAge();
+return age;
 }
 /*Also this function creates its own scope and that scope will be equivalent to the variable environment of its execution context*/
 
 /*Global variable (global environment)*/ const firstName = 'Vic';
 calcAge(1994);
+
+///////////////////////////
+// 94 Variable Environment: Hoisting and The TDZ
+
+/**
+ * Hoisting in JS:
+ * => We've learned that in an execution context always contains 3 parts: Variable Environment, Scope chain and this keyword
+ * Hoisting (içamento): Makes some types of variables accessible/usable in the code before they are actually declared. "Variables lifted to the top of their scope". But what actually occurs behind the scenes is that, before execution, code is scanned for variable declarations, and for each variable, a new property is created in the variable environment object
+ * 
+ * Lets look how hoisting works for : 
+ * - Function declarations -> HOISTED: yes (it means we can use function declarations before they are declared in the code, because they`re stored in the variable environment object even before the code starts executing); INITIAL VALUE: actual function; SCOPE: block (in strict mode, otherwise, function scope);
+ * - var variables: HOISTED: yes; INITIAL VALUE: undefined (it will be the result when we try to reach some var variable before it was declared - its a JS common bug and thats why we avoid using var); SCOPE: function;
+ * - let and const variables: HOISTED: no (Technically, they are, but since it doesn't have a value, we cannot work with, we'll get an error); INITIAL VALUE: <uninitialized>, TDZ (Temporal Dead Zone - where we cannot access variables, between the beginning of the scope and the local where variables are declared); SCOPE: block (means it exist just in the block scope where they're created);
+ * - function expressions and arrows: It depends if using var or let/const
+ * 
+ * Temporal Dead Zone (TDZ), Let and Const:
+ *  const myName = 'Vic';
+ *  if (myName == 'Vic){
+ *      console.log(`Vic is a ${job}`);
+ *      const age = 2037 - 1994;
+ *      console.log(age);
+ *      const job = 'teacher';
+ *      console.log(x);
+ *  }
+ * In the code above, the TDZ for 'job' variable will be the 3 code lines before it, so 'job' will be accessible just after it; So when code execution starts, we'll get an error "Cannot access 'job' before initialization in the line 'console.log(`Vic is a ${job}`);', because it's trying to access 'job' before it is declared; Now in the last line 'console.log(x);', we're trying to access a variable that was not even created, so we get the error "x in not defined"; Those different errors shows us that 'job' variable is really in the TDZ until reach the line its defined, since it is created in some place in the code, but its not declared yet; Unlike the 'x' var, that code is trying to access but it was never created in any place of the code
+ * Why JS have a TDZ ? Intriduced in ES6, makes it easier toa void and catch errors: accessing variables before declaration is bad practice and should be avoided; And makes const variables actually work, assigning its value just when the execution reaches the declaration, making impossible to use it before, how it was supposed to work.
+ * Why hoisting ? Using functions before actual declarations; Hoisting var variables is just a byproduct of hoisting functions, so we use let and const to work around this, avoiding undefined variables.
+ */
