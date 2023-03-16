@@ -100,51 +100,52 @@
 
 /*This calcAge is defined in the global scope*/
 function calcAge(birthYear){
-const age = 2030 - birthYear;
-//console.log(firstName); //this var is not actually in the scope of this function, but since it is a global variable, it can be access in this scope too
+    const age = 2030 - birthYear;
+    //console.log(firstName); //this var is not actually in the scope of this function, but since it is a global variable, it can be access in this scope too
 
-function printAge(){
-    let output = `${firstName}, you're ${age} yo, born in ${birthYear}`;
-    console.log(output);
-    //This function scope can access age and birthYear values because they belong to this function parent, this variables cannot be access outside its own function or its parent function; It can also access firstName because its in global scope
+    function printAge(){
+        let output = `${firstName}, you're ${age} yo, born in ${birthYear}`;
+        console.log(output);
+        //This function scope can access age and birthYear values because they belong to this function parent, this variables cannot be access outside its own function or its parent function; It can also access firstName because its in global scope
 
-    /*block scope*/
-    if(birthYear >= 1981 && birthYear <= 1996){
-        var millenial = true;
+        /*block scope*/
+        if(birthYear >= 1981 && birthYear <= 1996){
+            var millenial = true;
 
-        // Creating NEW variable with same name as outer scope's variable
-        const firstName = 'Bob'; //=> in the variable 'str', the JS will change 'Vic'(assigned in the global scope) to 'Bob'(assigned inside this own scope) because the variables inside the function scope has priority then the global variables; Outside this block scope, the firstName variable still holds the value 'Vic' assigned before 
+            // Creating NEW variable with same name as outer scope's variable
+            const firstName = 'Bob'; //=> in the variable 'str', the JS will change 'Vic'(assigned in the global scope) to 'Bob'(assigned inside this own scope) because the variables inside the function scope has priority then the global variables; Outside this block scope, the firstName variable still holds the value 'Vic' assigned before 
 
-        // Reassigning outer scope's variables
-        output = 'new output'; //here we're assign a new value to a variable that is defined inside the parent scope, and it works because the value is just reassign, its not creating a new variable; If it was a new 'const' or 'let' variable called 'output', then the console would show the first value assigned before "Vic, you're 36 yo, born in 1994" - obs.: if you try create a new variable 'output' with var, the error message will say that this variable is already defined, since 'var' can reach a global scope and scale to parents scopes, resulting in ths conflict
-        const str = `Oh, and you're also a millenial, ${firstName}`;
+            // Reassigning outer scope's variables
+            output = 'new output'; //here we're assign a new value to a variable that is defined inside the parent scope, and it works because the value is just reassign, its not creating a new variable; If it was a new 'const' or 'let' variable called 'output', then the console would show the first value assigned before "Vic, you're 36 yo, born in 1994" - obs.: if you try create a new variable 'output' with var, the error message will say that this variable is already defined, since 'var' can reach a global scope and scale to parents scopes, resulting in ths conflict
+            const str = `Oh, and you're also a millenial, ${firstName}`;
 
-        console.log(str);
-        //=> the scope of the add function is just inside the block scope where its created, thats because the `use strict` mode in top of the file
-        function add (a, b){
-            return a + b;
+            console.log(str);
+            //=> the scope of the add function is just inside the block scope where its created, thats because the `use strict` mode in top of the file
+            function add (a, b){
+                return a + b;
+            }
+
+            
         }
+        // console.log(str); 
+        //=> if we try to log this console.log(str); outside the block scope, it wont be found and we `ll get an error - thats because const and let can be access just inside the block scope, unless it is a global variable or a var inside the block scope
 
-        
+        console.log(millenial); 
+        //=> millenal can be access because even declared inside the block scope, it was declared as 'var', in the printAge function scope, unlike the const and let cases that is limited 
+
+        // add(2, 3); 
+        //=> we'll get an error because the scope of this fucntion is just inside the block scope where its created, because the strict mode on top of this file
+        // console.log(add(2,3)); //=>after disable strict mode, we log the function to console and we`ll be able to see its result
+
+        console.log(output); //here we're printing the new value of a variable that was reassigned inside a child scope
     }
-    // console.log(str); 
-    //=> if we try to log this console.log(str); outside the block scope, it wont be found and we `ll get an error - thats because const and let can be access just inside the block scope, unless it is a global variable or a var inside the block scope
-
-    console.log(millenial); 
-    //=> millenal can be access because even declared inside the block scope, it was declared as 'var', in the printAge function scope, unlike the const and let cases that is limited 
-
-    // add(2, 3); 
-    //=> we'll get an error because the scope of this fucntion is just inside the block scope where its created, because the strict mode on top of this file
-    // console.log(add(2,3)); //=>after disable strict mode, we log the function to console and we`ll be able to see its result
-
-    console.log(output); //here we're printing the new value of a variable that was reassigned inside a child scope
-}
-printAge();
-return age;
+    printAge();
+    return age;
 }
 /*Also this function creates its own scope and that scope will be equivalent to the variable environment of its execution context*/
 
-/*Global variable (global environment)*/ const firstName = 'Vic';
+/*Global variable (global environment)*/ 
+const firstName = 'Vic';
 calcAge(1994);
 
 ///////////////////////////
@@ -174,3 +175,72 @@ calcAge(1994);
  * Why JS have a TDZ ? Intriduced in ES6, makes it easier toa void and catch errors: accessing variables before declaration is bad practice and should be avoided; And makes const variables actually work, assigning its value just when the execution reaches the declaration, making impossible to use it before, how it was supposed to work.
  * Why hoisting ? Using functions before actual declarations; Hoisting var variables is just a byproduct of hoisting functions, so we use let and const to work around this, avoiding undefined variables.
  */
+
+///////////////////////////
+// 95 Hoisting and TDZ in practice
+
+//Lets try to access these variables before they're declared 
+
+console.log(me); 
+//in console: undefined - its known that it exist, but can access its value
+//console.log(job); 
+//in console: (error: Cannot access 'job' before initialization) - its still at the TDZ till the execution reaches its declaration
+//console.log(birthYear); 
+//in console: (error: Cannot access 'year' before initialization) - its still at the TDZ till the execution reaches its declaration
+
+var me = 'Vic';
+let job = 'teacher';
+const birthYear = 1994;
+
+
+//Lets try to access these functions (expression and declarations) before they're declared
+
+console.log(addDecl(2,3)); 
+//in console: result 5 - function scope -> global scope
+//console.log(addExpr(2,3)); 
+//in console: Uncaught ReferenceError: Cannot access 'addExpr' before initialization - in TDZ till its reach - block scope (strict mode) -> variable environment object scope
+//console.log(addArrow(2,3)); 
+//in console: Uncaught ReferenceError: Cannot access 'addArrow' before initialization - in TDZ till its reach - block scope (strict mode) -> variable environment object scope
+
+
+
+function addDecl(a, b){
+    return a + b;
+};
+
+
+const addExpr = function(a, b){
+    return a + b;
+};
+
+
+//const addArrow = (a,b) => a + b;
+var addArrow = (a,b) => a + b;
+//in console: Uncaught TypeError: addExpr is not a function - as we know, var variable are hoisted with undefined value and in the consoloe, we trying to call something like this => undefined(2,3); So if we try to call console.log(addExpr) without the () and arguments, it will return 'undefined' value; Remembering it all is just possible using 'var'
+
+//Example (of what NOT to do)
+//console.log(numProducts); //in console: undefined
+if(!numProducts) deleteShoppingCart();
+//"if numProducts = 0"
+
+var numProducts = 10;
+
+function deleteShoppingCart(){
+    console.log('All products deleted!');
+}
+//in console: 'All products deleted!' - thats because of how hoisting work with var variables, before reach the specific line with the var value, its undefined and it fulfill the if condition above
+
+/**Best Practices
+ * - Declare your variables in the top of each scope
+ * - Always declare all your functions first and use them after the declaration
+ * - "window"(keyword) is the JS global object in the browser
+ */
+
+var x =1; //in console: -> 'window' -> x:1; The other do not appear
+let y = 2;
+const z = 3;
+
+//Test to compare if the 'x' is actually a property of window object (JS global object result)
+console.log(x === window.x);
+console.log(y === window.y);
+console.log(z === window.z);
