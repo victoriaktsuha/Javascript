@@ -98,7 +98,8 @@
 ///////////////////////////
 // 93 Scoping in Practice
 
-/*This calcAge is defined in the global scope*/
+//This calcAge is defined in the global scope
+/* 
 function calcAge(birthYear){
     const age = 2030 - birthYear;
     //console.log(firstName); //this var is not actually in the scope of this function, but since it is a global variable, it can be access in this scope too
@@ -108,7 +109,7 @@ function calcAge(birthYear){
         console.log(output);
         //This function scope can access age and birthYear values because they belong to this function parent, this variables cannot be access outside its own function or its parent function; It can also access firstName because its in global scope
 
-        /*block scope*/
+        //block scope
         if(birthYear >= 1981 && birthYear <= 1996){
             var millenial = true;
 
@@ -142,12 +143,12 @@ function calcAge(birthYear){
     printAge();
     return age;
 }
-/*Also this function creates its own scope and that scope will be equivalent to the variable environment of its execution context*/
+//Also this function creates its own scope and that scope will be equivalent to the variable environment of its execution context
 
-/*Global variable (global environment)*/ 
+//Global variable (global environment)
 const firstName = 'Vic';
 calcAge(1994);
-
+ */
 ///////////////////////////
 // 94 Variable Environment: Hoisting and The TDZ
 
@@ -181,13 +182,13 @@ calcAge(1994);
 
 //Lets try to access these variables before they're declared 
 
-console.log(me); 
+//console.log(me); 
 //in console: undefined - its known that it exist, but can access its value
 //console.log(job); 
 //in console: (error: Cannot access 'job' before initialization) - its still at the TDZ till the execution reaches its declaration
 //console.log(birthYear); 
 //in console: (error: Cannot access 'year' before initialization) - its still at the TDZ till the execution reaches its declaration
-
+/* 
 var me = 'Vic';
 let job = 'teacher';
 const birthYear = 1994;
@@ -227,7 +228,7 @@ var numProducts = 10;
 
 function deleteShoppingCart(){
     console.log('All products deleted!');
-}
+} */
 //in console: 'All products deleted!' - thats because of how hoisting work with var variables, before reach the specific line with the var value, its undefined and it fulfill the if condition above
 
 /**Best Practices
@@ -235,7 +236,7 @@ function deleteShoppingCart(){
  * - Always declare all your functions first and use them after the declaration
  * - "window"(keyword) is the JS global object in the browser
  */
-
+/* 
 var x =1; //in console: -> 'window' -> x:1; The other do not appear
 let y = 2;
 const z = 3;
@@ -245,7 +246,7 @@ console.log(x === window.x);
 console.log(y === window.y);
 console.log(z === window.z);
 
-
+ */
 //////////////////
 // 96 The This Keyword
 
@@ -425,7 +426,43 @@ console.log('Me:', me); //Friend: {name: 'vic', age: 27}
 //////////////////
 // 100 Primitives vs. Objects in Practice
 
-let lastName = 'lastName';
+//Primitive types
+let lastName = 'Williams';
 let oldLastName = lastName;
 lastName = 'Davis';
 console.log(lastName, oldLastName);
+
+//Reference types
+const jessica = {
+    firstName: 'Jessica',
+    lastName: 'Williams',
+    age: '27'
+};
+
+const marriedJessica = jessica;
+marriedJessica.lastName = 'Davis';
+console.log('Before marriage:', jessica);
+console.log('After marriage:', marriedJessica);
+//marriedJessica = {}; //in console: script.js:446 Uncaught TypeError: Assignment to constant variable - this line will not work because we can't assign a new object to a const variable, this new object will be stored in a new position in the heap, and, therefore, the reference to this position will have to change in the already created variable, and since its a const, we cannot change its value in the stack - assign a new object is completelly different to change a property
+
+//Copying objects
+const jessica2 = {
+    firstName: 'Jessica',
+    lastName: 'Williams',
+    age: '27',
+    family: ['Alice', 'Bob'] //Lets use an array to illustrate the 'shallow copy' problem, because an array is basically an on object in the end
+};
+//'Object.assign' is used to merged to object into one: a new empty object {} and the previous one; And this new object is beign stored in 'jessicaCopy' - this works only on the first level: if we have a object inside the object, the inner object will still the same, pointing to the same place in the heap (old address), being just a 'shallow copy'
+
+const jessicaCopy = Object.assign({}, jessica2);
+jessicaCopy.lastName = 'Davis';
+console.log('Before marriage:', jessica2);
+console.log('After marriage:', jessicaCopy);
+//Now a new object, copying the properties of an old one was really created in the heap, and pointing to this new object/address
+
+//Here we're adding new 'family members' to the end of  the array 'family', manipulating an object that is within the object, refleting the change in both objects, the original and the copy merged - this can be bypassed with external libraries, for exemple, Lo-Dash, that allows us to do a 'deep cloning'
+jessicaCopy.family.push('Mary');
+jessicaCopy.family.push('John');
+console.log('Before marriage:', jessica2);
+console.log('After marriage:', jessicaCopy);
+//It will not work as expected (for now), copying the new members in both object when they should be added just in th new object - solution will be explored more forward
