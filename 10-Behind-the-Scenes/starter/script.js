@@ -244,3 +244,188 @@ const z = 3;
 console.log(x === window.x);
 console.log(y === window.y);
 console.log(z === window.z);
+
+
+//////////////////
+// 96 The This Keyword
+
+/** This keyword/variable:
+ * Special variable that is created for every execution context (every function).
+ * Takes the value of (points to) the "owner" of the function in which thee this keyword is used
+ * 'this' keyword is not static. It depends on how the function is called, and its value is only assigned when the function is actually called. Some ways to call a function:
+ *  - Method; 'this' = <Object that is calling the method>
+ *      - Method Example:
+ *          const name = {
+ *              name: 'Name';
+ *              year: 1994;
+ *              calcAge: function(){
+ *                  return 2037 - this.year;
+ *              }
+ *          };
+ *          jonas.calcAge();
+ *      - Above, the method is the calcAge, because is a function attached to 'name' object;
+ *      - And the 'this' keyword value is 'name'; because thats the object that is calling the method there. Then 'this.year' = 'jonas.year'
+ *  - Simple function call: 'this' = undefined (just in strict mode. Otherwise, it will point to the global object, and in the case of the browser, the window object); Simply calling tts not attached to any object
+ *  - Arrow functions: 'this' = <this of surrounding function (lexical this)>; It doesn't have its own 'this' keyword; Intead, 'this' will point to the surrounding function, so, the parent function - that's call lexical 'this' keyword, because its get from the external lexical scope of the arrow function
+ *  - Event listener: 'this' = <DOM element that the handler is attached to>
+ *  - new, call, apply, bind - other ways to call a function
+ *  !! 'this' does NOT point to the function itself, and also NOT the its variable environment!
+ */
+
+//////////////////
+// 97 The This Keyword in Practice
+
+/* 
+
+console.log(this);
+// 'this' keyword in the global scope is simply the window object
+
+const calcAge = function (birthYear) {
+  console.log(2037 - birthYear);
+  console.log(this); //in console: undefined (in strict mode; Otherwise, point to global scope/window object)
+};
+calcAge(1994);
+
+const calcAgeArrow = (birthYear) => {
+  console.log(2037 - birthYear);
+  console.log(this); //in console: (should be) window object - thats because arrow function does not get its own 'this' keyword, using 'this' keyword of its parent scope
+};
+calcAge(1980);
+
+const obj = {
+  year: 1991,
+  calcAge: function () {
+    console.log(this);
+    console.log(2037 - this.year); //46 - it avoids to pass orguments when calling the function
+  },
+};
+obj.calcAge();
+//it will show the 'obj' object: {year: 1991, calcAge: ƒ} - when we have a method, the 'this' keyword will be the object ('obj') that is calling the method; And 'obj' is basically the owner of the method - IMPORTANT: the 'this' keyword pointed to 'obj' object because its the object that was calling the method (obj.calcAge();) that holds the 'this' keyword, and not because 'obj' is the parent scope
+
+const matilda = {
+  year: 2017,
+};
+
+//method borrowing - the copy of a method from a object to another
+matilda.calcAge = obj.calcAge; //to copy, we must remove (), otherwise, we'd be calling the method, not copying it
+matilda.calcAge(); //20
+//here is the prove that the 'this' keyword contained in calcAge function (console.log(2037 - this.year);) will point to the object that call it, in this case, matilda - because the result '20' is just possible if '2017', property of matilda's object would a value reassigned to 'this' in (console.log(2037 - this.year);), and was subtracted from '2037' contained in the calcAge function
+
+const f = obj.calcAge; // its just possible to copy a function/method to a new variable because a function is just a value in the end
+f(); //in console: undefined - "Uncaught TypeError: Cannot read properties of undefined (reading 'year')" - thats because this function is just a regular function call; Its not attached at any object and that is no owner of this function
+
+ */
+
+//////////////////
+// 98 Regular Functions vs. Arrow Functions
+
+//Some pitfalls related to regular and arrow functions
+/* 
+//var firstName = 'Matilda';
+//this value will be assigned to 'this.firstName' because 'obj' object is on a global scope, as it is with greet function - thats a reason to not use var
+
+const obj = {
+  firstName: 'Blob',
+  year: 1991,
+  calcAge: function () {
+    console.log(this);
+    console.log(2037 - this.year);
+
+    //Here start a problem: the rule says that 'this' keyword inside a regular function must be 'undefined' because a regular function gets its own 'this' keyword
+
+    // *Solution 1 "self"
+    // const self = this; // self or that
+    // const isMillenial = function () {
+    //   console.log(self);
+    //   console.log(self.year >= 1981 && self.year <= 1996);
+    //   //console.log(this);
+    //   //console.log(this.year >= 1981 && this.year <= 1996); // teste a true or false condition
+    // };
+
+    // *Solution 2 "arrow function" - arrow functions will use the keyword from its parent scope, i.e, from calcAge method, which 'this' keyword is 'year' property from 'obj' - the difference between isMillenial arrow function and greet, is that isMillenial is inside a method, inheriting its 'this.year' keyword value as parent scope, and greet function is inside an object, inheriting global scope
+    const isMillenial = () => {
+      console.log(this);
+      console.log(this.year >= 1981 && this.year <= 1996); // teste a true or false condition
+    };
+
+    isMillenial(); // return a true or false output
+  },
+
+  greet: () => {
+    console.log(this);
+    console.log(`Hey ${this.firstName}`);
+  },
+  //in console: 'Hey undefined' - thats because an arrow function doesnt not get its own 'this' keyword, using the 'this' keyword from the global scope (because is not a code block, its just an object with global scope as parent)-> window object, and in the global scope we do not have any variable/property 'firstName'
+  //never use a arrow function as a method, even w/o a 'this' keyword
+  greet: function () {
+    console.log(this);
+    console.log(`Hey ${this.firstName}`);
+  },
+  //the solution for the previous problem is using a regular function - now the 'greet' method has its own 'this' keyword and will retrieve the 'firstName' property in the 'obj' object
+};
+
+obj.greet();
+//'obj' doesn't have a block scope, its not like its a code block, its just an object surrounded by global scope, so as greet function; And when we try to access a property that doesn't exist in a certain object, we get 'undefined' value, not a error
+//var variables actually create properties on the global object - that's not a good practice
+obj.calcAge();
+//in console: "Uncaught TypeError: Cannot read properties of undefined (reading 'year')" - isMillenial is a regular function even is inside a method, and the rule says that inside a regular function call, the 'this' keyword must be 'undefined', because a regular function get its own 'this' keyword - is like the isMillenial function was outside the method; A solution for this (solution 1) would be adding a variable usually named 'self' with 'this as value, just before the regular function isMillenial, because there, 'self' still has access to 'obj' object properties or - (solution 2) use an arrow function 🤡 - because it doesn't have its own 'this' keyword and it will use the keyword from its parent scope - the difference between isMillenial arrow function and greet, is that isMillenial is inside a method, inheriting its 'this.year' keyword value, that it inherit from 'obj', and greet function is inside an object, inheriting global scope
+
+// Arguments keyword
+const addExpr = function (a, b) {
+  console.log(arguments);
+  return a + b;
+};
+addExpr(2, 5); //in console: Arguments(2) [2, 5, callee: (...), Symbol(Symbol.iterator): ƒ]
+//we could also add more arguments even without a parameters for them: addExpr(2, 5, 8, 12); -> Arguments(4) [2, 5, 8, 12, callee: (...), Symbol(Symbol.iterator): ƒ]
+
+var addArrow = (a, b) => {
+  console.log(arguments);
+  return a + b;
+};
+addArrow(2, 5, 8); // "Uncaught ReferenceError: arguments is not defined" - its hsows us that arguments keyword exist but only in regular functions, not in arrow function
+ */
+
+//////////////////
+// 99 Primitives vs. Objects (Primitives vs. Reference Types)
+
+/* 
+//Review
+// - Primitives: Number, String, Boolean, Undefined, Null, Symbol, BigInt (anything else is object)
+// - Objects: Object literal, Arrays, Functions, many more...
+// => When we talk about memory and memory management, we call primitves -> primitives types and objects -> reference type, because of the different way they're stored in memory
+// - JS engine: Contains 2 elements: call stack (where functions are store and declared - in its execution context - and where these execution context is executed) and heap (where objects - reference types - are stored in memory)
+
+//Primitive values example:
+let age = 30;
+let oldAge = age; //at this point, oldAge still 30 - after that, oldAge doesn't change
+age = 31;
+console.log(age); // 31
+console.log(oldAge); // 30
+// JS Engine path for primitive values: 1. In the call stack (where primitives belongs), will be created an unique identifier call 'age' > 2. Then a piece of the memory will be alocated in a certain address: 001, for example > 3. Then the value will be stored in the specified address - The identifier points to the address 001, for exemple, and not to the value itself. In fact, age = address 001, that holds the value '30'; Next 'oldAge' name a new identifier, but since it copies 'age', this identifier will point to the same address 001 that holds the value '30'; Then 'age' receives a new value, and the '30' value before is not reassigned in the address 001, because the value in a certain memory is imutable; So since 'age' cannot points to the same address becaus it receives a new value, a new piece of memory is created, with a new address 002 and the new value '31', but the same identifier 'age' now points to this new address instead the old one;
+
+//Reference values example:
+const me = {
+  name: 'vic',
+  age: 30,
+};
+const friend = me;
+friend.age = 27;
+console.log('Friend:', friend); //Friend: {name: 'vic', age: 27}
+console.log('Me:', me); //Friend: {name: 'vic', age: 27}
+
+// JS Engine path for reference values: 1. In the heap (where references/objects belongs), will be created an address 00A that holds a value. In this case, the identifier 'me' will stay in the call stack. > 2. There, a new piece of memory with a new address 003 will be created, and this new address will point to the to the object that is in the heap, using the address 00A as its value - that's why we call objects as reference types; It works this way because objects might be too large to be stored in the stack, and heap is more like almost a  unlimited memory pool > 3. Then a identifier 'friend' is created in the call stack, and since it copies the 'me' value, this identifier will point to the same address 00A as 'me' > 4. Next the 'age' property in the address 00A is updated to 27, since it was reassigned in 'friend' object - Here, even manipulating a const variable, its possible because we're not changing the value at the address 003 in the call stack, its value still as address 00A, that holds the objects properties; We're changin the value in the heap, which is not a problem; So const variables is imutable just with primitve values- > 5. So 'me' object also receives '27' value as 'age', even we didn't change it, because 'friend' and 'me' points to the same object at the heap memory, refleting any change in this heap object to any object that it point to its address; When we think we're copying an object, we're just creating a new variable that points to the same object
+ */
+
+/* Important for later:
+ * - Prototypal inheritance: Object oriented programming (OOP) with JS;
+ * - Event Loop: Asynchronous JS: Promises, Async/Await and AJAX
+ * - How DOM really works: Advanced DOM and Events
+ */
+
+//////////////////
+// 100 Primitives vs. Objects in Practice
+
+let lastName = 'lastName';
+let oldLastName = lastName;
+lastName = 'Davis';
+console.log(lastName, oldLastName);
