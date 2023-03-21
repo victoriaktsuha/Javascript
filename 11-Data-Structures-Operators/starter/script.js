@@ -28,6 +28,10 @@ const restaurant = {
     console.log(`Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`);
   },
 
+  //this is a new method that will return just 'pasta' always with 3 ingredients
+  orderPasta: function(ing1, ing2, ing3){
+    console.log(`Here is your delicious pasta with ${ing1}, ${ing2} and ${ing3}`)
+  },
   openingHours: {
     thu: {
       open: 12,
@@ -178,3 +182,65 @@ restaurant.orderDelivery({
 
 ////////////////////
 // 105 The Spread Operator (...)
+//We can use it to expand an array and all your elements - unpacking all array elements at one
+
+// What NOT to do 
+const arr = [7,8,9];
+const badNewArray = [1, 2, arr[0], arr[1], arr[2]];
+console.log(badNewArray); //in console: >(5) [1, 2, 7, 8, 9]
+
+// Spread - Good Practice - the '...arr' will add individually all elements at once 
+const goodNewArray = [1, 2, ...arr]; // this is different from this: [1, 2, arr] -> It'll add an array inside the other array
+console.log(goodNewArray);//in console: >(5) [1, 2, 7, 8, 9]
+console.log(...goodNewArray);// in console: 1 2 7 8 9
+
+//Adding items to array
+//Its not manipulationg the original mainMenu from restaurant object, it creating a new array, copying the elements individually from the mainMenu and adding a new one
+const newMenu = [...restaurant.mainMenu, 'Gnocci'];
+console.log(newMenu);// in console: >(4) ['Pizza', 'Pasta', 'Risotto', 'Gnocci']
+
+//Difference between destructuring and spread: The SPREAD takes all the elements from the array and also doesn't create new variables; And as a consequence, we can use it only in places where we, otherwise, should write separated values by commas
+
+//Spread is very usefull to: Create shallow copies of arrays and to merge two arrays
+
+// Spread - Copy array
+const mainMenuCopy = [...restaurant.mainMenu]; //A shallow copy of the mainMenu array
+console.log(mainMenuCopy); // >(3) ['Pizza', 'Pasta', 'Risotto']
+
+// Spread - Join 2 arrays
+const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
+console.log(menu); // >(7) ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad', 'Pizza', 'Pasta', 'Risotto']
+
+//Spread can work too with iterables - and what are those ? There a different types of iterables in JS, but for now we can learn that arrays, strings, maps or set, most of the date structures are iterables, EXCEPT for objects
+
+// Iterables: arrays, strings, maps and sets. NOT objects
+const str = 'Jonas';
+const letters = [...str, ' ', 'S.']; //expand a string
+console.log(letters);// in console: (7) ['J', 'o', 'n', 'a', 's', ' ', 'S.']
+
+//We can still only use spread operator building an array or passing values to a function
+console.log(...str);
+
+//What NOT gonna work
+//console.log(`${...str} Williams`); // Uncaught SyntaxError: Unexpected token '...' -> thats because ${} is not a place that expects multiple values separated by a comma
+
+//Multiples values separated by a comma are usually expected when we pass arguments into a function or when we built a new array
+
+const ingredients = [prompt("Let's make pasta! Ingredient 1?"), prompt("Ingredient 2?"), prompt("Ingredient 3")];
+console.log(ingredients); //in console: >(3) ['olive oil', 'tomato', 'garlic'] -> anything user input
+
+//Here we're calling the function that orders just pasta and will retrieve the ingredients from the user input in the prompt above
+restaurant.orderPasta(ingredients[0], ingredients[1], ingredients[2]); //in console: Here is your delicious pasta with olive oil, tomato and garlic
+
+//Here we're also calling the function, but letting much easier with the spread operator, not needing write manually the ingredients position in the array or guess the array length
+restaurant.orderPasta(...ingredients);//in console: Here is your delicious pasta with olive oil, tomato and garlic
+
+
+//Since ES18, spread can work with objects, even objects is not iterable
+const newRestaurant = {foundedIN: 1998, ...restaurant, founder: 'Giuseppe'};
+console.log(newRestaurant); // in console: {foundedIN: 1998, name: 'Classico Italiano', location: 'Via Angelo Tavanti 23, Firenze, Italy', categories: Array(4), starterMenu: Array(4), …}
+
+const restaurantCopy = {...restaurant};// shallow copy from 'restaurant'
+restaurantCopy.name = 'Ristorante Roma';
+console.log(restaurantCopy.name); // Ristorante Roma
+console.log(restaurant.name); // Classico Italiano
