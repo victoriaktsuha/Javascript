@@ -13,8 +13,8 @@ const restaurant = {
   mainMenu: ['Pizza', 'Pasta', 'Risotto'],
 
   //new method
-  order: function(starterIndex, mainIndex){
-    return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]] //return 2 elements, which order will be pass as argument (starterIndex and mainIndex) from the starterMenu and mainMenu that is inside this object ('this')
+  order: function (starterIndex, mainIndex) {
+    return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]]; //return 2 elements, which order will be pass as argument (starterIndex and mainIndex) from the starterMenu and mainMenu that is inside this object ('this')
   },
 
   //new method
@@ -24,14 +24,30 @@ const restaurant = {
   // },
 
   //now, while we receive this object, we can do immediatelly the destructuring, passing the properties name used in the object passed inside the function, and the order doesn't need to match; We can also assign default value to the properties in case the element doesn't exist
-  orderDelivery: function({starterIndex = 1, mainIndex = 0, time = '20:00', address}){
-    console.log(`Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`);
+  orderDelivery: function ({
+    starterIndex = 1,
+    mainIndex = 0,
+    time = '20:00',
+    address,
+  }) {
+    console.log(
+      `Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`
+    );
   },
 
   //this is a new method that will return just 'pasta' always with 3 ingredients
-  orderPasta: function(ing1, ing2, ing3){
-    console.log(`Here is your delicious pasta with ${ing1}, ${ing2} and ${ing3}`)
+  orderPasta: function (ing1, ing2, ing3) {
+    console.log(
+      `Here is your delicious pasta with ${ing1}, ${ing2} and ${ing3}`
+    );
   },
+
+  //this is a new method that need to have at least 1 ingredient, the others are optional
+  orderPizza: function (mainIngredient, ...otherIngredients) {
+    console.log(mainIngredient);
+    console.log(otherIngredients);
+  },
+
   openingHours: {
     thu: {
       open: 12,
@@ -180,24 +196,25 @@ restaurant.orderDelivery({
 //in console: Order received! Bruschetta and Pizza (default array order value) will be delivered to Via del Sole, 21 at 20:00 (default time)
  */
 
+/* 
 ////////////////////
 // 105 The Spread Operator (...)
 //We can use it to expand an array and all your elements - unpacking all array elements at one
 
-// What NOT to do 
-const arr = [7,8,9];
+// What NOT to do
+const arr = [7, 8, 9];
 const badNewArray = [1, 2, arr[0], arr[1], arr[2]];
 console.log(badNewArray); //in console: >(5) [1, 2, 7, 8, 9]
 
-// Spread - Good Practice - the '...arr' will add individually all elements at once 
+// Spread - Good Practice - the '...arr' will add individually all elements at once
 const goodNewArray = [1, 2, ...arr]; // this is different from this: [1, 2, arr] -> It'll add an array inside the other array
-console.log(goodNewArray);//in console: >(5) [1, 2, 7, 8, 9]
-console.log(...goodNewArray);// in console: 1 2 7 8 9
+console.log(goodNewArray); //in console: >(5) [1, 2, 7, 8, 9]
+console.log(...goodNewArray); // in console: 1 2 7 8 9
 
 //Adding items to array
 //Its not manipulationg the original mainMenu from restaurant object, it creating a new array, copying the elements individually from the mainMenu and adding a new one
 const newMenu = [...restaurant.mainMenu, 'Gnocci'];
-console.log(newMenu);// in console: >(4) ['Pizza', 'Pasta', 'Risotto', 'Gnocci']
+console.log(newMenu); // in console: >(4) ['Pizza', 'Pasta', 'Risotto', 'Gnocci']
 
 //Difference between destructuring and spread: The SPREAD takes all the elements from the array and also doesn't create new variables; And as a consequence, we can use it only in places where we, otherwise, should write separated values by commas
 
@@ -216,7 +233,7 @@ console.log(menu); // >(7) ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese 
 // Iterables: arrays, strings, maps and sets. NOT objects
 const str = 'Jonas';
 const letters = [...str, ' ', 'S.']; //expand a string
-console.log(letters);// in console: (7) ['J', 'o', 'n', 'a', 's', ' ', 'S.']
+console.log(letters); // in console: (7) ['J', 'o', 'n', 'a', 's', ' ', 'S.']
 
 //We can still only use spread operator building an array or passing values to a function
 console.log(...str);
@@ -226,21 +243,72 @@ console.log(...str);
 
 //Multiples values separated by a comma are usually expected when we pass arguments into a function or when we built a new array
 
-const ingredients = [prompt("Let's make pasta! Ingredient 1?"), prompt("Ingredient 2?"), prompt("Ingredient 3")];
+const ingredients = [
+  prompt("Let's make pasta! Ingredient 1?"),
+  prompt('Ingredient 2?'),
+  prompt('Ingredient 3'),
+];
 console.log(ingredients); //in console: >(3) ['olive oil', 'tomato', 'garlic'] -> anything user input
 
 //Here we're calling the function that orders just pasta and will retrieve the ingredients from the user input in the prompt above
 restaurant.orderPasta(ingredients[0], ingredients[1], ingredients[2]); //in console: Here is your delicious pasta with olive oil, tomato and garlic
 
 //Here we're also calling the function, but letting much easier with the spread operator, not needing write manually the ingredients position in the array or guess the array length
-restaurant.orderPasta(...ingredients);//in console: Here is your delicious pasta with olive oil, tomato and garlic
-
+restaurant.orderPasta(...ingredients); //in console: Here is your delicious pasta with olive oil, tomato and garlic
 
 //Since ES18, spread can work with objects, even objects is not iterable
 const newRestaurant = {foundedIN: 1998, ...restaurant, founder: 'Giuseppe'};
 console.log(newRestaurant); // in console: {foundedIN: 1998, name: 'Classico Italiano', location: 'Via Angelo Tavanti 23, Firenze, Italy', categories: Array(4), starterMenu: Array(4), …}
 
-const restaurantCopy = {...restaurant};// shallow copy from 'restaurant'
+const restaurantCopy = {...restaurant}; // shallow copy from 'restaurant'
 restaurantCopy.name = 'Ristorante Roma';
 console.log(restaurantCopy.name); // Ristorante Roma
 console.log(restaurant.name); // Classico Italiano
+ */
+
+////////////////////
+// 106 Rest Pattern and Parameters
+// The Rest Pattern looks the same as the spread operator - they have the same syntax (...) but do the opposite of the spread - it collect the multiples elements and join them into an array (pack lements into the array), while spread collect multiples elements and store them into individuals variables (unpack the array)
+
+// we know that this is the spread syntx because we're using it in the RIGHT side of the assignment operator, the = sign;
+const arr = [1, 2, ...[3, 4]];
+
+// Destructuring (objects and arrays) with Rest - Rest syntax is '...' n the LEFT side of the assignment operator '=', while Spread Syntax is '...' on the RIGHT side of the assignment operator '='
+
+// Destructuring arrays with rest
+const [a, b, ...others] = [1, 2, 3, 4, 5];
+console.log(a, b, others); // in console: 1 2 >(3) [3, 4, 5]
+//Rest took the remaining elements not used in the destructuring assignment and put them into array 'others'
+
+// We can use (...) on the both sides of the assignment operator; And rest operator must be always the last element in the destructuring structure, to know what are the remaing elements that was not 'collect' by the destructuring variables
+const [pizza, , risotto, ...otherFood] = [
+  ...restaurant.mainMenu,
+  ...restaurant.starterMenu,
+];
+console.log(pizza, risotto, otherFood); //in conosle: Pizza Risotto (4) ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad']
+
+// Destructuring objects with Rest - the difference is that the remaining elements will be collected to a new object, not a new array
+const {sat, ...weekdays} = restaurant.openingHours;
+console.log(sat, weekdays); // in console: >{open: 0, close: 24} >{thu: {…}, fri: {…}}
+
+// Functions with Rest
+//Here we're collecting all numbers passed as arguments, resulting (not creating) an array
+const add = function (...numbers) {
+  let sum = 0;
+  for (let i = 0; i < numbers.length; i++) sum += numbers[i];
+  console.log(sum);
+};
+add(2, 3); // 5
+add(5, 3, 7, 2); // 17
+add(8, 2, 5, 3, 2, 1, 4); // 25
+
+const x = [23, 5, 7];
+add(...x); //35 -> here we're spreading first (like showed below), and when these array numbers reach the function, they will be packed (because the '...' is after the '=' sign) and sum for the loop
+console.log(...x); //23 5 7
+
+restaurant.orderPizza('mushrooms', 'onions', 'olives', 'spinach');
+//in console: mushrooms <br> >(3) ['onions', 'olives', 'spinach']
+restaurant.orderPizza('mushrooms');
+//in console: mushrooms <br> >[]
+
+//Recaping: the SPREAD operator is used when otherwise, we'd write VALUES separated by commas; And REST operator is used where, otherwise, we'd write VARIABLE NAMES separated by commas
