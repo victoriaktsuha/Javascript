@@ -266,6 +266,7 @@ console.log(restaurantCopy.name); // Ristorante Roma
 console.log(restaurant.name); // Classico Italiano
  */
 
+/* 
 ////////////////////
 // 106 Rest Pattern and Parameters
 // The Rest Pattern looks the same as the spread operator - they have the same syntax (...) but do the opposite of the spread - it collect the multiples elements and join them into an array (pack lements into the array), while spread collect multiples elements and store them into individuals variables (unpack the array)
@@ -312,3 +313,43 @@ restaurant.orderPizza('mushrooms');
 //in console: mushrooms <br> >[]
 
 //Recaping: the SPREAD operator is used when otherwise, we'd write VALUES separated by commas; And REST operator is used where, otherwise, we'd write VARIABLE NAMES separated by commas
+ */
+
+////////////////////
+// 107 Short Circuiting (and && and or ||)
+//Logical operators: 1) Can use any data type, 2) Return any data type, 3) Short-circuiting
+console.log('---- OR ----');
+// The result of the || OR operator doesn't have to be always boolean
+console.log(3 || 'Vic'); // 3 -> In case of the OR || operator, it short-cirscuits when the first value is TRUE and return this value; not even evaluating the second element
+console.log('' || 'Vic'); // Vic -> because empty string is a false value
+console.log(true || 0); // true -> result is already true
+console.log(undefined || null); // null -> undefined is a false value; null is also a false value
+console.log(undefined || 0 || '' || 'Hello' || 23 || null); // hello -> is the first true value in these OR chain operations
+
+//restaurant.numGuests = 23;
+const guests1 = restaurant.numGuests ? restaurant.numGuests : 10;
+console.log(guests1); // 10 -> Returned 10 because 'numGuests' doesn't exist inside 'restaurant' object; If certain value was assigned to this property, then that value should return
+
+const guests2 = restaurant.numGuests || 10; //this solution and the previous wont work if the guest numbers is zero
+console.log(guests2);
+console.log(restaurant);
+
+console.log('---- AND ----');
+console.log(0 && 'vic'); // 0 -> In the case of the AND && operator, it short-circuits when the first value is FALSE and return this value, not even evaluating the second element
+console.log(7 && 'vic'); // vic ->
+//AND && works the opposite from the OR || operator
+console.log('hello' && 23 && null && 'vic'); // null -> is the first false element in the line
+
+//AND && operator can use to avoid the 'if' statement, where you want to check if a property or value exist or not
+if (restaurant.orderPizza) {
+  restaurant.orderPizza('mushrooms', 'spinach');
+}
+//in console: mushrooms <br> >['spinach']
+
+//How to read this line: "If 'restaurant.orderPizza' existe, then (&&) call 'restaurant.orderPizza('mushrooms', 'spinach') with these arguments"
+restaurant.orderPizza && restaurant.orderPizza('mushrooms', 'spinach');
+//in console: mushrooms <br> >['spinach']
+//Don't need to replace all if statement, otherwise, the code will be very difficult to read in the future
+
+//Recaping: OR || operator will return the FIRST TRUE value or simply the LAST VALUE if all values are FALSE; AND && operator will return the FIRST FALSE value or simply the LAST VALUE if all values are TRUE;
+//We also can use OR || operator to set default values; And we can use the AND && operator to execute code in the second operand IF the first one is TRUE
