@@ -821,7 +821,7 @@ BONUS: Create an object called 'scorers' which contains the names of the players
       Lewandowski: 2
     }
 */
-
+/* 
 const game = {
   team1: 'Bayern Munich',
   team2: 'Borrussia Dortmund',
@@ -863,30 +863,187 @@ const game = {
   },
 };
 
-////// My Solution
-
 //1. Loop over the game.scored array and print each player name to the console, along with the goal number (Example: "Goal 1: Lewandowski")
 console.log('----- Task 1 -----');
 
-const scored = game.scored;
-console.log(scored);
-//(4) ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels']
-
-for (const [goal, player] of scored.entries()) {
+for (const [goal, player] of game.scored.entries()) {
   //console.log(players);
-  console.log(`Goal ${goal}: ${player}`);
-  // Goal 0: Lewandowski
-  // Goal 1: Gnarby
-  // Goal 2: Lewandowski
-  // Goal 3: Hummels
+  console.log(`Goal ${goal + 1}: ${player}`);
+  // Goal 1: Lewandowski
+  // Goal 2: Gnarby
+  // Goal 3: Lewandowski
+  // Goal 4: Hummels
 }
 
 //2. Use a loop to calcute the average odd and log it to the console (We already studied how to calculate averages, you can go check if you don't remember)
 console.log('----- Task 2 -----');
 
+let average = 0;
 const odds = Object.values(game.odd);
 
-for (const average of odds) {
-  //console.log(average);
-  console.log(average.length);
+for (const odd of odds) {
+  average += odd;
+  average /= odds.length;
+  console.log(average);
 }
+
+//3. Print the 3 odds to the console, but in a nice formatted way, exactly like this:
+// Odd of victory Bayern Munich: 1.33
+// Odd of draw: 3.25
+// Odd of victory Borrussia Dortmund: 6.5
+// Get the team names directly from the game object, don't hardcode them (except for "draw"). HINT: Note how the odds and the game objects have the same property names
+console.log('----- Task 3 -----');
+
+for (const [team, odds] of Object.entries(game.odd)) {
+  const teamStr = team === 'x' ? 'draw' : `victory ${game[team]}`;
+  console.log(`Odd of victory ${teamStr}: ${odds}`);
+}
+ */
+
+/* 
+////////////////////
+// 116 Sets
+
+//Set is a collection of unique values, it doesn't have duplicates
+
+//Set structure: In a variable, store 'new Set(iterable)' -> iterable can be arrays, string, bigInt; It can also receive a mix of data types
+const ordersSet = new Set([
+  'pasta',
+  'pizza',
+  'pizza',
+  'risotto',
+  'pasta',
+  'pizza',
+]);
+console.log(ordersSet);
+// >Set(3) {'pasta', 'pizza', 'risotto'} -> the duplicates are gone
+
+//Sets itself are also iterables and the main differences form a set to an array are that: set elements must be uniques and in sets, elements order are irrelevants
+
+// Set with  string
+console.log(`Set with string 'new Set('name')':`, new Set('name'));
+// Set(4) {'n', 'a', 'm', 'e'}
+
+// Set empty
+console.log(`Set empty 'new Set()':`, new Set());
+// Set(0) {size: 0}
+
+// Getting the set size - NOT 'length'
+console.log(`Set size '.size':`, ordersSet.size);
+// 3 -> (Even with 6 elements, the duplicated will be ignore)
+
+//Check if element belongs to a set
+console.log(
+  `Check if element belongs to a set '.has()': 'pizza'`,
+  ordersSet.has('pizza')
+); // true
+console.log(
+  `Check if element belongs to a set '.has()': 'bread'`,
+  ordersSet.has('bread')
+); // false
+
+//Adding elements
+ordersSet.add('Garlic Bread');
+ordersSet.add('Garlic Bread');
+console.log(`Adding elements '.add()': 'Garlic Bread'`, ordersSet);
+// >Set(4) {'pasta', 'pizza', 'risotto', 'Garlic Bread'}
+
+//Delete elements
+ordersSet.delete('risotto');
+console.log(`Deleting elements '.delete()': 'risotto'`, ordersSet);
+// >Set(3) {'pasta', 'pizza', 'Garlic Bread'}
+
+//Cannot retrieve the index from set like in array
+console.log(`Cannot retrieve the index from set like in array:`, ordersSet[0]);
+//undefined -> that's because we can't retrieve any data from a set, since its values are unique and it doesn't have a order. Instead, use an array if that's the purpose
+
+// Clear an entire set
+//ordersSet.clear();
+//console.log(`Clear an entire set '.clear()'`, ordersSet);
+// > Set(0) {size: 0}
+
+//We can loop over a set, possible like in any other iterable
+for (const order of ordersSet) {
+  console.log(order);
+  // pasta
+  // pizza
+  // Garlic Bread
+}
+
+//A utility for set is to remove duplicates from array
+const staff = ['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef', 'Waiter'];
+//Removing Duplicates
+const staffUnique = new Set(staff);
+console.log(staffUnique);
+// >Set(3) {'Waiter', 'Chef', 'Manager'}
+
+//Transforming into array -> embrace with [] and unpack the elements with spread ...
+const staffUniqueArray = [...new Set(staff)];
+console.log(staffUniqueArray);
+// >(3) ['Waiter', 'Chef', 'Manager']
+
+//Using set to know how many unique elements are in the array -> avoid to create an array just for it
+console.log(
+  new Set(['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef', 'Waiter']).size
+); // 3 (unique elements)
+
+console.log(new Set('namemiddlenamelastname').size); // 9 (unique letters)
+ */
+/* 
+////////////////////
+// 117 Maps: Fundamentals
+
+//Map is a data structure that we can use to map values to keys; Like objects, data is stored in key-values pairs in maps. De firrence between objects and maps, is that in maps, keys can have any type (objects, arrays or even another map), and in objects, keys are always basically strings
+
+//The most easy way to creta a map is creating it empty and then fillng it with .set(), passing to it the key name first and then the key value
+const rest = new Map();
+rest.set('name', 'Classico Italiano');
+rest.set(1, 'Firenze, Italy'); // the key name can be any type, like a number
+console.log(rest.set(2, 'Lisbon, Portugal'));
+// Map(3) {'name' => 'Classico Italiano', 1 => 'Firenze, Italy', 2 => 'Lisbon, Portugal'}
+
+// We can add elements in 'chain' to a map
+rest
+  .set('categories', ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'])
+  .set('open', 11)
+  .set('close', 23)
+  .set(true, 'We are open')
+  .set(false, 'We are closed');
+console.log(rest);
+//Map(8) {'name' => 'Classico Italiano', 1 => 'Firenze, Italy', 2 => 'Lisbon, Portugal', 'categories' => Array(4), 'open' => 11, …}
+
+//To ready data from the map, we use Get method
+console.log(rest.get('name')); // Classico Italiano
+console.log(rest.get(true)); // We are open
+console.log(rest.get(1)); // Firenze, Italy
+
+//In order to know if the restaurant is open or closed according to the time, we set a boolean condition:
+const time = 21;
+console.log(rest.get(time > rest.get('open') && time < rest.get('close'))); // We are open
+//If the current time is bigger then the 'open' key value and lower then the 'close' key value,i.e., true, then will return the value of the 'true' key ('We are open'); If false, then will return the value of the 'false' key ('We are closed')
+
+//Checking if a map has certain key
+console.log(rest.has('categories')); // true
+
+//Deleting a key from map
+rest.delete(2); // Do not put it into a console.log, just call it after
+console.log(rest);
+// >Map(7) {'name' => 'Classico Italiano', 1 => 'Firenze, Italy', 'categories' => Array(4), 'open' => 11, 'close' => 23, …}
+
+//Map size
+console.log(rest.size); // 7
+
+//Clear a map
+//rest.clear();
+//console.log(rest); // >Map(0) {size: 0}
+
+//Array as key
+const arr = [1, 2];
+rest.set(arr, 'Test');
+console.log(rest.get(arr)); // Test
+
+//document selector as key
+rest.set(document.querySelector('h1'), 'Heading');
+console.log(rest);
+// >Map(9) {'name' => 'Classico Italiano', 1 => 'Firenze, Italy', 'categories' => Array(4), 'open' => 11, 'close' => 23, …}
+ */
