@@ -5,6 +5,21 @@ const flights =
   '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30';
 
 // Data needed for first part of the section
+const openingHours = {
+  thu: {
+    open: 12,
+    close: 22,
+  },
+  fri: {
+    open: 11,
+    close: 23,
+  },
+  sat: {
+    open: 0, // Open 24 hours
+    close: 24,
+  },
+};
+
 const restaurant = {
   name: 'Classico Italiano',
   location: 'Via Angelo Tavanti 23, Firenze, Italy',
@@ -24,31 +39,26 @@ const restaurant = {
   // },
 
   //now, while we receive this object, we can do immediatelly the destructuring, passing the properties name used in the object passed inside the function, and the order doesn't need to match; We can also assign default value to the properties in case the element doesn't exist
-  orderDelivery: function ({
-    starterIndex = 1,
-    mainIndex = 0,
-    time = '20:00',
-    address,
-  }) {
+  orderDelivery({starterIndex = 1, mainIndex = 0, time = '20:00', address}) {
     console.log(
       `Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`
     );
   },
 
   //this is a new method that will return just 'pasta' always with 3 ingredients
-  orderPasta: function (ing1, ing2, ing3) {
+  orderPasta(ing1, ing2, ing3) {
     console.log(
       `Here is your delicious pasta with ${ing1}, ${ing2} and ${ing3}`
     );
   },
 
   //this is a new method that need to have at least 1 ingredient, the others are optional
-  orderPizza: function (mainIngredient, ...otherIngredients) {
+  orderPizza(mainIngredient, ...otherIngredients) {
     console.log(mainIngredient);
     console.log(otherIngredients);
   },
-
-  openingHours: {
+  openingHours,
+  /* openingHours: {
     thu: {
       open: 12,
       close: 22,
@@ -61,7 +71,7 @@ const restaurant = {
       open: 0, // Open 24 hours
       close: 24,
     },
-  },
+  }, */
 };
 
 /* 
@@ -152,7 +162,7 @@ console.log(restaurantName, hours, tags);
 
 //Default values
 
-//When receiving third part data, tts very helpful to have default values in case to trying to read a property that doesn't exist on the object
+//When receiving third part data, its very helpful to have default values in case to trying to read a property that doesn't exist on the object
 const { menu = [], starterMenu: starters = []} = restaurant;
 console.log(menu, starters);
 //in console: >[] <br> >(4) ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'] -> an empty array will be shown for 'menu' because that object doesn't exist, and a fulfill array will replace the [] to 'starters', because 'starterMenu' exist in the object 'restaurant'
@@ -315,6 +325,7 @@ restaurant.orderPizza('mushrooms');
 //Recaping: the SPREAD operator is used when otherwise, we'd write VALUES separated by commas; And REST operator is used where, otherwise, we'd write VARIABLE NAMES separated by commas
  */
 
+/* 
 ////////////////////
 // 107 Short Circuiting (and && and or ||)
 //Logical operators: 1) Can use any data type, 2) Return any data type, 3) Short-circuiting
@@ -346,10 +357,536 @@ if (restaurant.orderPizza) {
 }
 //in console: mushrooms <br> >['spinach']
 
-//How to read this line: "If 'restaurant.orderPizza' existe, then (&&) call 'restaurant.orderPizza('mushrooms', 'spinach') with these arguments"
+//How to read this line: "If 'restaurant.orderPizza' exist, then (&&) call 'restaurant.orderPizza('mushrooms', 'spinach') with these arguments"
 restaurant.orderPizza && restaurant.orderPizza('mushrooms', 'spinach');
 //in console: mushrooms <br> >['spinach']
 //Don't need to replace all if statement, otherwise, the code will be very difficult to read in the future
 
 //Recaping: OR || operator will return the FIRST TRUE value or simply the LAST VALUE if all values are FALSE; AND && operator will return the FIRST FALSE value or simply the LAST VALUE if all values are TRUE;
 //We also can use OR || operator to set default values; And we can use the AND && operator to execute code in the second operand IF the first one is TRUE
+ */
+/* 
+////////////////////
+// 108 The Nullish Coalescing Operator (??) - Operador Coalescente Nulo, introduced in ES2020
+
+restaurant.numGuests = 0;
+
+//OR || operator - it works with falsy values instead of nullish values
+const guests = restaurant.numGuests || 10;
+console.log(guests); // 10
+//"If restaurant.numGuests is false, then 10 will be executed. Otherwise, it will return its value"
+
+//Nullish Coalescing ?? operator - it works with nullish values (null and undefined - NOT include 0 or '') instead of falsy values
+const guestsCorrect = restaurant.numGuests ?? 10;
+console.log(guestsCorrect); // 0
+//"If restaurant.numGuests is null or undefined, then 10 will be executed. Otherwise, it will return its value"
+
+////////////////////
+// 109 Logical Assignment Operators
+
+const rest1 = {
+  name: 'Capri',
+  //numGuests: 20,
+  numGuests: 0, // zero is a falsy value, so, when we run the code with numGuests: 0, the rest1.numGuests will return 10
+};
+const rest2 = {
+  name: 'La Piazza',
+  owner: 'Giovanni Rossi',
+};
+//OR assignment operator - assign a value (10) to a variable (object.numGuests) if its current falsy
+// rest1.numGuests = rest1.numGuests || 10; // rest1.numGuests exists, then return its value 20
+// rest2.numGuests = rest2.numGuests || 10; // rest2.numGuests is undefined because doesn't exist, then 10 is returned
+
+//console.log(rest1, rest2);
+//in console: >{name: 'Capri', numGuests: 20} >{name: 'La Piazza', owner: 'Giovanni Rossi', numGuests: 10}
+//in console, with numGuests as 0 value: >{name: 'Capri', numGuests: 20} >{name: 'La Piazza', owner: 'Giovanni Rossi', numGuests: 10}
+
+//Adding numGuests to rest2 through Logical Assignment - assign a value (10) to a variable (object.numGuests) if its current falsy -> but if the value is 0, falsy value, then it will assign 10
+// rest1.numGuests ||= 10;
+// rest2.numGuests ||= 10;
+
+//console.log(rest1, rest2);
+//in console: >{name: 'Capri', numGuests: 20} >{name: 'La Piazza', owner: 'Giovanni Rossi', numGuests: 10}
+//in console, with numGuests as 0 value: >{name: 'Capri', numGuests: 10} >{name: 'La Piazza', owner: 'Giovanni Rossi', numGuests: 10}
+
+//To solve the 0 assignment problem, we use the nullish assignment operator
+rest1.numGuests ??= 10;
+rest2.numGuests ??= 10;
+
+console.log(rest1, rest2);
+//in console, with numGuests as 0 value: >{name: 'Capri', numGuests: 0} >{name: 'La Piazza', owner: 'Giovanni Rossi', numGuests: 10}
+
+// AND && assignment operator
+rest1.owner = rest1.owner && '<ANONYMOUS>'; //Set as undefined because rest1.owner doesn't exist and the operator short-circuits whne the first value is falsy
+rest2.owner = rest2.owner && '<ANONYMOUS>';
+console.log(rest1, rest2);
+//in console: >{name: 'Capri', numGuests: 0,  owner: undefined} >{name: 'La Piazza', owner: '<ANONYMOUS>', numGuests: 10}
+
+//Same as 'rest2.owner = rest2.owner && '<ANONYMOUS>';'
+rest1.owner &&= '<ANONYMOUS>'; //Avoid and hide the undefined value
+rest2.owner &&= '<ANONYMOUS>';
+
+console.log(rest1, rest2);
+
+//Basically, what the logical assignmet end operator does is assign a value to a variable if its currently truthy - Otherwise, it avoid undefined, null, and so on
+ */
+////////////////////
+// 110 Coding Challenge #1
+
+/*
+We're building a football betting app
+
+Suppose we get data from web service about a certain game (below). In this challenge we're gonna work with the data. So here are your tasks:
+
+1. Create one player array for each team (variables 'players1' and 'players2')
+2. The first player in any player array is the goalkeeper and the others are field players. For Bayern Munich (team 1) create one variable ('gk) with the goalkeeper's name, and one array ('fieldPlayers') with all the remaining 10 field players
+3. Create an array 'allPlayers' containing all players of both teams (22 players)
+4. During the game, Bayern Munich (team 1) used 3 substitute players. So create a new array ('playersFinal') containing all the original team1 players plus 'Thiago', 'Coutinho', and 'Perisic'
+5. Based on the game.odds object, create one variable for each odd (called 'team1', 'draw' and 'team2')
+6. Write a function ('principalGoals') that receives an arbritary number of player names (NOT an array) and prints each of them to the console, along with the number of goals who were scored (number of player names passed in)
+7. The team with the lower odd is more likely to win. Print to the console which team is more likely to win, WITHOUT using an if/else statement or the ternary operator.
+
+TEST DATA FOR 6: Use players 'Davies', 'Muller', 'Lewandowski' and 'Kimmich'. Then, call the function again with players from game.scored
+*/
+/* 
+const game = {
+  team1: 'Bayern Munich',
+  team2: 'Borrussia Dortmund',
+  players: [
+    [
+      'Neuer',
+      'Pavard',
+      'Martinez',
+      'Alaba',
+      'Davies',
+      'Kimmich',
+      'Goretzka',
+      'Coman',
+      'Muller',
+      'Gnarby',
+      'Lewandowski',
+    ],
+    [
+      'Burki',
+      'Schulz',
+      'Hummels',
+      'Akanji',
+      'Hakimi',
+      'Weigl',
+      'Witsel',
+      'Hazard',
+      'Brandt',
+      'Sancho',
+      'Gotze',
+    ],
+  ],
+  score: '4:0',
+  scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
+  date: 'Nov 9th, 2037',
+  odd: {
+    team1: 1.33,
+    x: 3.25,
+    team2: 6.5,
+  },
+};
+ */
+/* 
+//1. OK
+const [players1, players2] = game.players;
+console.log(players1, players2);
+
+//2. OK
+const [gk, ...fieldPlayers] = players1;
+
+//3. OK
+const allPlayers = [...players1, ...players2];
+console.log(allPlayers);
+
+//4. OK
+const playersFinal = [...players1, 'Thiago', 'Coutinho', 'Perisic'];
+console.log(playersFinal);
+
+//5. Correct
+const {
+  odds: {team1, x: draw, team2},
+} = game;
+console.log(team1, draw, team2);
+
+//6. Correct - '...players' will take the total of arguments passed, and when passing 'game.scored', adding '...' to take one by one of the elements
+const printGoals = function (...players) {
+  console.log(`${players.length} goals were scored`);
+};
+printGoals('Davies', 'Muller', 'Lewandowski', 'Kimmich');
+printGoals('Davies', 'Muller');
+printGoals(...game.scored);
+
+//7. Correct
+team1 < team2 && console.log('team1 is more likely to win');
+team1 > team2 && console.log('team2 is more likely to win');
+ */
+/*
+
+//5. Wrong
+const {team1, draw, team2} = {...game.odd};
+console.log(team1, draw, team2);
+
+//6. Wrong
+const principalGoals = function (playerName) {
+  console.log(playerName);
+};
+ */
+
+/* 
+////////////////////
+// 111 Looping Arrays: The for-of Loop
+
+const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
+//its 'for' item 'of' menu - this loop will automactically loop for all the array, and at each iteration will give us access to the current array element wich is specified in 'item' (it can be named as you want);
+//'Item' is always the current element in each iteration
+for (const item of menu) console.log(item); // Doesn't need a block when you have only a instruction to execute
+// Focaccia
+// Bruschetta
+// Garlic Bread
+// Caprese Salad
+// Pizza
+// Pasta
+// Risotto
+
+//Get items index - the current position of each element
+for (const item of menu.entries()) console.log(item);
+// (2) [0, 'Focaccia'] -> '(2)' for index and array element
+// (2) [1, 'Bruschetta']
+// (2) [2, 'Garlic Bread']
+// (2) [3, 'Caprese Salad']
+// (2) [4, 'Pizza']
+// (2) [5, 'Pasta']
+// (2) [6, 'Risotto']
+
+console.log(menu.entries());
+// >Array Iterator {}
+
+console.log([...menu.entries()]);
+// v(7) [Array(2), Array(2), Array(2), Array(2), Array(2), Array(2), Array(2)]
+//    >0: (2) [0, 'Focaccia']
+//    >1: (2) [1, 'Bruschetta']
+//    >2: (2) [2, 'Garlic Bread']
+//    >3: (2) [3, 'Caprese Salad']
+//    >4: (2) [4, 'Pizza']
+//    >5: (2) [5, 'Pasta']
+//    >6: (2) [6, 'Risotto']
+//    length: 7
+//    >[[Prototype]]: Array(0)
+
+//Taking advantage of the 'menu.entries'
+for (const item of menu.entries()) console.log(`${item[0] + 1}: ${item[1]}`);
+// 1: Focaccia
+// 2: Bruschetta
+// 3: Garlic Bread
+// 4: Caprese Salad
+// 5: Pizza
+// 6: Pasta
+// 7: Risotto
+
+// Destructuring the 'menu.entries' - stored the index into 'i' and array element into 'el'
+for (const [i, el] of menu.entries()) console.log(`${i + 1}: ${el}`);
+// 1: Focaccia
+// 2: Bruschetta
+// 3: Garlic Bread
+// 4: Caprese Salad
+// 5: Pizza
+// 6: Pasta
+// 7: Risotto
+ */
+/* 
+////////////////////
+// 112 Enhanced Object Literals
+
+// *Attaching outer object inside objects with ES6
+const openingHours = {
+  thu: {
+    open: 12,
+    close: 22,
+  },
+  fri: {
+    open: 11,
+    close: 23,
+  },
+  sat: {
+    open: 0, // Open 24 hours
+    close: 24,
+  },
+};
+
+const restaurant2 = {
+  name: 'Classico Italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  starterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+  //openingHours: openingHours, //Before ES6 - old way to add object to object - a problem would be the property name being the same as the added object name
+  openingHours, //With ES6, just add the same property/object name - if you change the obect name, you'll to change the property name too
+
+  // *Adding methods with ES6
+
+  //Before ES6, old way to declare methods
+  order_olderway: function (starterIndex, mainIndex) {
+    return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
+  },
+  //With ES6
+  order_neway(starterIndex, mainIndex) {
+    return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
+  },
+};
+
+// *Computing values
+const weekdays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+const openingHours2 = {
+  [weekdays[3]]: {
+    open: 12,
+    close: 22,
+  },
+  [weekdays[4]]: {
+    open: 11,
+    close: 23,
+  },
+  [`day-${2 + 4}`]: {
+    open: 0,
+    close: 24,
+  },
+};
+console.log(openingHours2); // >{thu: {…}, fri: {…}, day-6: {…}}
+ */
+/* 
+////////////////////
+// 113 Optional Chaining (?.)
+
+//New feature for objects and arrays
+
+//Pretending we do not know if the restaurant open in mondays
+//console.log(restaurant.openingHours.mon); //undefined
+
+//console.log(restaurant.openingHours.mon.open); //Uncaught TypeError: Cannot read properties of undefined (reading 'open') -> undefined + '.open' = error
+
+//if (restaurant.openingHours.mon) console.log(restaurant.openingHours.mon.open);
+//Uncaught TypeError: Cannot read properties of undefined (reading 'open')
+
+//if (restaurant.openingHours.fri) console.log(restaurant.openingHours.fri.open);
+// 11
+
+//if (restaurant.openingHours && restaurant.openingHours.mon) console.log(restaurant.openingHours.mon.open); // validating nest level by level
+
+//This kind of validating can become a problem when we have deeply nested objects
+
+//Optional chaining - New ES2020 feature as solutions for nested object validation
+
+//If a certain property doesn't exist, it will return undefined right away
+console.log(restaurant.openingHours.mon?.open); // undefined -  Only if the property before the ? mark exist ('mon'), then '.open' will be added and return its value - The Nullish concept is applied here, a property exist only if is not null or undefined
+console.log(restaurant.openingHours?.mon?.open);
+
+
+
+for (const day of days) {
+  //console.log(day);
+  // mon
+  // tue
+  // wed
+  // thu
+  // fri
+  // sat
+  // sun
+  const open = restaurant.openingHours[day]?.open ?? 'closed';
+  //If you want to use a variable name as property name, put it into []
+  console.log(`on ${day}, we open at ${open}`);
+  // on mon, we open at closed
+  // on tue, we open at closed
+  // on wed, we open at closed
+  // on thu, we open at 12
+  // on fri, we open at 11
+  // on sat, we open at 0
+  // on sun, we open at closed
+}
+
+//Optional chaining with Methods - checking if a method exists before call it
+
+console.log(restaurant.order?.(0, 1) ?? 'Method does not exist');
+//>(2) ['Focaccia', 'Pasta']
+console.log(restaurant.orderRisotto?.(0, 1) ?? 'Method does not exist');
+//Method does not exist
+
+//Optional chaining with Arrays
+const users = [{name: 'Bob', email: 'bob@gmail.com'}];
+
+console.log(users[0]?.name ?? 'User array empty');
+// Bob
+console.log(users[0]?.age ?? 'User array empty');
+// User array empty
+
+if (users.length > 0) console.log(users[0].name);
+else console.log('User array empty');
+// Bob
+ */
+/* 
+////////////////////
+// 114 Looping Objects: Object Keys, Values, and Entries
+
+//Looping over objects, that are not iterable, but in a indirect way (looping over an array); Or properties names, values or both together
+
+//Loopping over property names (also called 'keys')
+const properties = Object.keys(openingHours);
+console.log(properties);
+// >(3) ['thu', 'fri', 'sat']
+
+let openStr = `We're open on ${properties.length} days: `;
+// We're open on 3 days
+
+for (const day of Object.keys(openingHours)) {
+  console.log(day);
+  // thu
+  // fri
+  // sat
+}
+
+for (const day of properties) {
+  openStr += `${day},`;
+}
+console.log(openStr);
+// We're open on 3 days: thu,fri,sat,
+
+//Property Values
+const values = Object.values(openingHours);
+console.log(values);
+// v(3) [{…}, {…}, {…}]
+//    0: {open: 12, close: 22}
+//    1: {open: 11, close: 23}
+//    2: {open: 0, close: 24}
+//    length: 3
+//    >[[Prototype]]: Array(0)
+
+//Entrie = Property/Keys + Values - looping for an 'object'
+const entries = Object.entries(openingHours);
+console.log(entries);
+// v (3) [Array(2), Array(2), Array(2)]
+//    v 0: Array(2)
+//      0: "thu"
+//      >1: {open: 12, close: 22}
+//      length: 2
+//      >[[Prototype]]: Array(0)
+//    v 1: Array(2)
+//      0: "fri"
+//      >1: {open: 11, close: 23}
+//      length: 2
+//      >[[Prototype]]: Array(0)
+//    v 2: Array(2)
+//      0: "sat"
+//      1: {open: 0, close: 24}
+//      length: 2
+//      [[Prototype]]: Array(0)
+//    length: 3
+//    >[[Prototype]]: Array(0)
+
+for (const x of entries) {
+  console.log(x);
+  // >(2) ['thu', {…}]
+  // >(2) ['fri', {…}]
+  // >(2) ['sat', {…}]
+}
+// [key, value]
+for (const [key, {open, close}] of entries) {
+  console.log(`On the ${key} we open at ${open} and close at ${close}`);
+  // On the thu we open at 12 and close at 22
+  // On the fri we open at 11 and close at 23
+  // On the sat we open at 0 and close at 24
+}
+// the {open, close} was necessary because the element itself is an object
+ */
+
+////////////////////
+// 115 Coding Challenge #2
+
+/*
+Let's continue with out football betting app!
+
+1. Loop over the game.scored array and print each player name to the console, along with the goal number (Example: "Goal 1: Lewandowski")
+2. Use a loop to calcute the average odd and log it to the console (We already studied how to calculate averages, you can go check if you don't remember)
+3. Print the 3 odds to the console, but in a nice formatted way, exactly like this:
+    Odd of victory Bayern Munich: 1.33
+    Odd of draw: 3.25
+    Odd of victory Borrussia Dortmund: 6.5
+Get the team names directly from the game object, don't hardcode them (except for "draw"). HINT: Note how the odds and the game objects have the same property names
+
+BONUS: Create an object called 'scorers' which contains the names of the players who scored as properties, and the number of the goals as the value. In this game, it will look like this:
+    {
+      Gnarby: 1,
+      Hummels: 1,
+      Lewandowski: 2
+    }
+*/
+
+const game = {
+  team1: 'Bayern Munich',
+  team2: 'Borrussia Dortmund',
+  players: [
+    [
+      'Neuer',
+      'Pavard',
+      'Martinez',
+      'Alaba',
+      'Davies',
+      'Kimmich',
+      'Goretzka',
+      'Coman',
+      'Muller',
+      'Gnarby',
+      'Lewandowski',
+    ],
+    [
+      'Burki',
+      'Schulz',
+      'Hummels',
+      'Akanji',
+      'Hakimi',
+      'Weigl',
+      'Witsel',
+      'Hazard',
+      'Brandt',
+      'Sancho',
+      'Gotze',
+    ],
+  ],
+  score: '4:0',
+  scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
+  date: 'Nov 9th, 2037',
+  odd: {
+    team1: 1.33,
+    x: 3.25,
+    team2: 6.5,
+  },
+};
+
+////// My Solution
+
+//1. Loop over the game.scored array and print each player name to the console, along with the goal number (Example: "Goal 1: Lewandowski")
+console.log('----- Task 1 -----');
+
+const scored = game.scored;
+console.log(scored);
+//(4) ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels']
+
+for (const [goal, player] of scored.entries()) {
+  //console.log(players);
+  console.log(`Goal ${goal}: ${player}`);
+  // Goal 0: Lewandowski
+  // Goal 1: Gnarby
+  // Goal 2: Lewandowski
+  // Goal 3: Hummels
+}
+
+//2. Use a loop to calcute the average odd and log it to the console (We already studied how to calculate averages, you can go check if you don't remember)
+console.log('----- Task 2 -----');
+
+const odds = Object.values(game.odd);
+
+for (const average of odds) {
+  //console.log(average);
+  console.log(average.length);
+}
