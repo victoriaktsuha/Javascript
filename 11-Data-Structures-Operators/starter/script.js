@@ -1047,3 +1047,153 @@ rest.set(document.querySelector('h1'), 'Heading');
 console.log(rest);
 // >Map(9) {'name' => 'Classico Italiano', 1 => 'Firenze, Italy', 'categories' => Array(4), 'open' => 11, 'close' => 23, …}
  */
+/* 
+////////////////////
+// 118 Maps: Iteration
+
+//Another wat to populate a map: set method, similiar to Object.entries(), array of arrays, where the first element is the key and the second is the value
+
+const question = new Map([
+  ['question', 'What is the best programming language in the world ?'],
+  [1, 'C'],
+  [2, 'Java'],
+  [3, 'JavaScript'],
+  ['correct', 3],
+  [true, 'Correct 😀'],
+  [false, 'Try again!'],
+]);
+console.log(question);
+
+//Converting objects to maps - it transform object in terables, since map are iterable but objects are not
+console.log(Object.entries(openingHours)); // >(3) [Array(2), Array(2), Array(2)]
+const hoursMap = new Map(Object.entries(openingHours));
+console.log(hoursMap); // >Map(3) {'thu' => {…}, 'fri' => {…}, 'sat' => {…}}
+
+//Iteration - for loop with map
+
+//Log the quiz
+console.log(question.get('question'));
+//Log the answers option
+for (const [key, value] of question) {
+  if (typeof key === 'number') console.log(`Answer ${key}: ${value}`);
+  // Answer 1: C
+  // Answer 2: Java
+  // Answer 3: JavaScript
+}
+//Get user answer - transform it to a number so can be compare to the correct option (1, 2 or 3)
+const answer = Number(prompt('Your answer:'));
+console.log(answer);
+
+//Validate answer - in the console, will be logged the string according to the return on question.get(if the answer is equal to question.get('correct'), then return the true key and value, else the false key and value)
+console.log(question.get(question.get('correct') === answer));
+
+//Convert map to array
+console.log([...question]);
+//(7) [Array(2), Array(2), Array(2), Array(2), Array(2), Array(2), Array(2)]
+console.log([...question.entries()]);
+// (7) [Array(2), Array(2), Array(2), Array(2), Array(2), Array(2), Array(2)]
+console.log([...question.keys()]);
+// (7) ['question', 1, 2, 3, 'correct', true, false]
+console.log([...question.values()]);
+// (7) ['What is the best programming language in the world ?', 'C', 'Java', 'JavaScript', 3, 'Correct 😀', 'Try again!']
+ */
+/* 
+////////////////////
+// 119 Summary: Which Data Structure to Use?
+
+// Sources of Data: 1)From the program itself: Data written directly in source code (e.g. status messages); 2) From the UI: Data input from the user or data wirtten in DOM (e.g. tasks in todo app); 3) From external sources: Data fetched for example from web API - Application Programming Interface, using it to get data from other applications (e.g. current weather in location, currency convertion rates, recipe objects)
+// All of this compond collections of data, that are stored in data structures
+//Data Structures:  Arrays Objects, Sets and Maps (there are more, but not for now)
+
+//How to know what structure to use ?
+// For a simple list of values; values w/o description -> Array or Set
+// For pairs of key/values; to describe values -> Object or Maps
+//Data from web API comes in JSON format, similar to object structure, with key/values pairs, being organizaed bascially as arrays of objects
+
+// Arrays vs. Sets - use when don't need describe values
+// Arrays:
+// Use when you need ordered list of values (might contain duplicates)
+// Use when you need to manipulate data
+tasksArray = ['Code', 'Eat', 'Code']; // ["Code", "Eat", "Code"]
+
+// Sets:
+// Use when you need to work with unique values
+// Use when high-performance is really important
+// Use to remove duplicates from arrays
+tasksSets = new Set(['Code', 'Eat', 'Code']); // {"Code", "Eat"}
+
+// Objects vs. Maps - use when need to describe values using keys
+// Objects:
+// More "traditional" key/value store ("abused" objects)
+// Easier to write and access values with . and []
+// Use when you need to include functions (methods)
+// Use when working with JSON (can convert to map)
+taskObject = {
+  task: 'Code',
+  date: 'today',
+  repeat: true,
+};
+
+// Maps:
+// Better performance
+// Keys can have any data type
+// Easy to iterate
+// Easy to compute size
+// Use when you simply need to map key to values
+// Use when you need keys that are not strings
+taskMaps = new Map([
+  ['task', 'code'],
+  ['date', 'today'],
+  [false, 'Start coding!'],
+]);
+ */
+
+////////////////////
+// 120 Coding Challenge #3
+
+/*
+Let's continue with ur football betting app! This time, we have a map with a log of the events that happened during the game. The values are the events themselves, and the keys are the minutes in which each event happened (a football game has 90 minutes plus some extra time).
+
+1. Create an array 'events' of the different game events that happened (no duplicates)
+2. After the game has finished, is was found that the yellow card from the minute 64 was unfair. So remove this event from the game events log.
+3. Print the following string to the console: "An event happened, on average, every 9 minutes" (keep in mind that a game has 90 minutes)
+4. Loop over the events and log them to the console, marking whether it's in the first half or second half (after 45 minutes) of the game, like this:
+      [FIRST HALF] 17: ⚽ GOAL
+ */
+/* 
+const gameEvents = new Map([
+  [17, '⚽ GOAL'],
+  [36, '🔁 SUBSTITUTION'],
+  [47, '⚽ GOAL'],
+  [36, '🔁 SUBSTITUTION'],
+  [64, '🟨 YELLOW CARD'],
+  [69, '🟥 RED CARD'],
+  [70, '🔁 SUBSTITUTION'],
+  [72, '🔁 SUBSTITUTION'],
+  [76, '⚽ GOAL'],
+  [80, '⚽ GOAL'],
+  [92, '🟨 YELLOW CARD'],
+]);
+
+// 1.
+const events = [...new Set(gameEvents.values())];
+console.log(events);
+
+// 2.
+gameEvents.delete(64);
+
+// 3.
+const time = [...gameEvents.keys()].pop(); //pop() return the last array element
+console.log(
+  `An event happened, on average, every ${time / gameEvents.size} minutes`
+);
+
+// 4.
+for (const [min, event] of gameEvents) {
+  const half = min <= 45 ? 'FIRST' : 'SECOND';
+  console.log(`[${half} HALF] ${min}: ${event}`);
+}
+ */
+
+////////////////////
+// 121 Working With Strings - Part 1
