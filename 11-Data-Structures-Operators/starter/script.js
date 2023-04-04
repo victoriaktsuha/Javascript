@@ -39,7 +39,7 @@ const restaurant = {
   // },
 
   //now, while we receive this object, we can do immediatelly the destructuring, passing the properties name used in the object passed inside the function, and the order doesn't need to match; We can also assign default value to the properties in case the element doesn't exist
-  orderDelivery({starterIndex = 1, mainIndex = 0, time = '20:00', address}) {
+  orderDelivery({ starterIndex = 1, mainIndex = 0, time = '20:00', address }) {
     console.log(
       `Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`
     );
@@ -1197,3 +1197,51 @@ for (const [min, event] of gameEvents) {
 
 ////////////////////
 // 121 Working With Strings - Part 1
+
+const airline = 'TAP Air Portugal';
+const plane = 'A320';
+
+console.log(plane[0]); //A
+console.log(plane[1]); //3
+console.log(plane[2]); //2
+console.log('B737'[0]); //B
+console.log(airline.length); //16
+console.log('B737'.length); //4
+
+//Strings methods
+console.log(airline.indexOf('r')); //6 - indexOf is used to get the position of a certain element (considering the first of its type)
+console.log(airline.lastIndexOf('r')); //10 - get the position of the last type of a certain element
+console.log(airline.indexOf('Portugal')); //8
+
+// Can be used to extract part of a string using the slice method - resulting in a 'substring'
+console.log(airline.slice(4)); //Air Portugal - the argument '4' is the position where the extract will start
+console.log(airline.slice(4, 7)); //Air P - the argument '4' is the start position and '7' is the last position, creating a range. But the extract stops before reaching the last position
+// It doesn't change the string, since string is a primitive
+// To use the substring, it need to be stored first
+// The lneght of the extract string is always the end minus beginning
+
+//Extracting the first word of the string w/o knowing the string - starting in the base 0 and ending in the first space
+console.log(airline.slice(0, airline.indexOf(' '))); //Air
+//Extracting the last word of the string w/o knowing the string - starting in the last space and letting without the last position, so it will extract til the end; The '+1' is to avoid the space in the console print
+console.log(airline.slice(airline.lastIndexOf(' ') + 1)); //Portugal
+//Negative position
+console.log(airline.slice(-2)); //al - It will start in the end, getting the last 2 letters in this case
+//Positive + Negative position
+console.log(airline.slice(1, -1)); //AP Air Portuga - It will start at the  position '1' and end at the penultimate position, cutting off the last element
+
+// Writing a function that receives an airplane seat (parameters/arguments) and logs it to the console, if it is a middle seat or not
+const checkMiddleSeat = function (seat) {
+  // B and E are middle seats
+  const s = seat.slice(-1); // '-1' will get the last element/letter
+  if (s === 'B' || s === 'E') console.log('You got the middle seat 😥');
+  else console.log('You got lucky! 😎');
+};
+checkMiddleSeat('11B'); // You got the middle seat 😥
+checkMiddleSeat('23C'); // You got lucky! 😎
+checkMiddleSeat('3E'); // You got the middle seat 😥
+
+// If strings are just primitives, why do they have methods since string is not an object like an array? -> That's true but whn we call a method on a string, behind the scenes JS automatically convert that string primitive into a string object wih the same content and its on that object where the methods are called - this process is called boxing because it takes the string and put it into a box which is the object, something like this:
+console.log(new String('name')); // >String {'name'}
+console.log(typeof new String('name')); // object
+//And all string methods return primitives:
+console.log(typeof new String('name').slice(1)); // string
