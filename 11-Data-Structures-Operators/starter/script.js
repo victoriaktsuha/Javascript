@@ -1218,7 +1218,7 @@ console.log(airline.slice(4)); //Air Portugal - the argument '4' is the position
 console.log(airline.slice(4, 7)); //Air P - the argument '4' is the start position and '7' is the last position, creating a range. But the extract stops before reaching the last position
 // It doesn't change the string, since string is a primitive
 // To use the substring, it need to be stored first
-// The lneght of the extract string is always the end minus beginning
+// The lenght of the extract string is always the end minus beginning
 
 //Extracting the first word of the string w/o knowing the string - starting in the base 0 and ending in the first space
 console.log(airline.slice(0, airline.indexOf(' '))); //Air
@@ -1245,3 +1245,58 @@ console.log(new String('name')); // >String {'name'}
 console.log(typeof new String('name')); // object
 //And all string methods return primitives:
 console.log(typeof new String('name').slice(1)); // string
+
+////////////////////
+// 122 Working With Strings - Part 2
+
+console.log(airline.toLowerCase()); //tap air portugal
+console.log(airline.toUpperCase()); //TAP AIR PORTUGAL
+console.log('name'.toUpperCase()); //NAME
+
+// Fix capitalization in name
+const passenger = 'nAmES';
+const passengerLower = passenger.toLowerCase();
+const passengerCorrect =
+  passengerLower[0].toUpperCase() + passengerLower.slice(1);
+console.log(passengerCorrect); //Names
+
+// Comparing email
+const email = 'hello@name.com';
+const loginEmail = ' Hello@Name.Com \n';
+
+const normalizeEmail = loginEmail.toLowerCase().trim();
+console.log(normalizeEmail); //hello@name.com
+console.log(email === normalizeEmail); //true
+
+// Replacing - consider the first of element type and can be chained
+const priceGB = '288,97₤';
+const priceUS = priceGB.replace('₤', '$').replace(',', '.');
+console.log(priceUS); //288.97$
+
+const annoucement =
+  'All passengers come to boarding door 23. Boarding door 23!';
+console.log(annoucement.replaceAll('door', 'gate'));
+//console.log(annoucement.replace(/door/g, 'gate')); => replace with regular expression
+
+// Booleans - methods that returns booleans
+const plane2 = 'Airbus A320neo';
+console.log(plane2.includes('A320')); // true -> confirm if the argument exist in the string
+console.log(plane2.includes('Boeing')); // false
+console.log(plane2.startsWith('Air')); // true
+
+if (plane2.startsWith('Airbus') && plane2.endsWith('neo')) {
+  console.log('Part of the NEW Airbus Family');
+}
+
+// Practice exercise
+const checkBaggage = function (items) {
+  const baggage = items.toLowerCase();
+  if (baggage.includes('knife') || baggage.includes('gun')) {
+    console.log('You are not allowed on board');
+  } else {
+    console.log('Welcome aboard');
+  }
+};
+checkBaggage('I have a laptop, some Food and a pocket Knife'); //You are not allowed on board
+checkBaggage('I have socks and a camera'); //Welcome aboard
+checkBaggage('I have some snacks and a a gun for protection'); //You are not allowed on board
