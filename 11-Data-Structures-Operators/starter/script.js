@@ -1300,3 +1300,58 @@ const checkBaggage = function (items) {
 checkBaggage('I have a laptop, some Food and a pocket Knife'); //You are not allowed on board
 checkBaggage('I have socks and a camera'); //Welcome aboard
 checkBaggage('I have some snacks and a a gun for protection'); //You are not allowed on board
+
+////////////////////
+// 123 Working With Strings - Part 3
+
+//Split - allows us to divide a string in multiple parts based on a divided string
+console.log('a+very+nice+string'.split('+')); // >(4) ['a', 'very', 'nice', 'string']
+console.log('Name Lastname'.split(' ')); // >(2) ['Name', 'Lastname']
+
+const [firstName, lastName] = 'Name Lastname'.split(' ');
+console.log(firstName, lastName); //Name Lastname
+
+//Join - opposite of split
+const newName = ['Mr.', firstName, lastName.toUpperCase()].join(' ');
+console.log(newName); // Mr. Name LASTNAME
+
+const capitalizeName = function (name) {
+  const names = name.split(' ');
+  const namesUpper = [];
+  for (const n of names) {
+    //namesUpper.push(n[0].toUpperCase() + n.slice(1));
+    namesUpper.push(n.replace(n[0], n[0].toUpperCase()));
+  }
+  console.log(namesUpper.join(' '));
+};
+capitalizeName('jessica ann smith davis'); // Jessica Ann Smith Davis
+capitalizeName('name lastname'); // Name Lastname
+
+// Padding - add a number of haracters to the string util the string has a certain desired lenght
+const message = 'Go to gate 23!';
+console.log(message.padStart(25, '+').padEnd(30, '+')); // It'll add '+' characters to the beggining of the string until reach the lenght defined '25' => +++++++++++Go to gate 23!
+//padEnd will use the previous characters added to the beggining to complete the lenght define to the end (already have 25, so it'll add more 5 characters '+' to reach 30)
+console.log('Name'.padStart(25, '+')); //+++++++++++++++++++Name
+
+// example: Credit card number
+const maskCreditCard = function (number) {
+  const str = number + ''; // 'number + '' will convert all number into string because when you have a string plus a number, all elements will be converted to a string
+  const last = str.slice(-4); // here we get just the last 4 numbers
+  return last.padStart(str.length, '*'); // here we '*' at the beggining til reach the original string length
+};
+console.log(maskCreditCard(1234567890)); //******7890
+console.log(maskCreditCard(1234567890123456)); //************3456
+console.log(maskCreditCard('098765432109876')); //***********9876
+
+// Repeat - allows us to repeat the same strign multiple times
+const message2 = 'Bad weather... All departures Delayed...';
+console.log(message2.repeat(5)); //It sum all string into one
+
+const planesInLine = function (n) {
+  console.log(`There are ${n} planes in line ${'✈'.repeat(n)}`);
+};
+planesInLine(5); //There are 5 planes in line ✈✈✈✈✈
+planesInLine(3); //There are 3 planes in line ✈✈✈
+planesInLine(12); //There are 12 planes in line ✈✈✈✈✈✈✈✈✈✈✈✈
+
+// Tip: search for 'MDN string' for more string methods
