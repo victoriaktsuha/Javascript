@@ -184,6 +184,7 @@ const greet2 = greeting2 => name2 => console.log(`${greeting2} ${name2}`);
 greet2('Hi')('Alex'); //Hi Alex
  */
 
+/* 
 /////////////////////
 // 133 The call and apply Methods
 
@@ -267,7 +268,7 @@ lufthansa.buyPlane = function () {
 
   this.planes++;
   console.log(this.planes);
-  // It will add a new plane ti the property 'planes' in the 'lufthansa' object every time we click on button 'buy new plane'
+  // It will add a new plane to the property 'planes' in the 'lufthansa' object every time we click on button 'buy new plane'
 };
 document
   .querySelector('.buy')
@@ -300,3 +301,161 @@ const addVAT2 = addTaxRate(0.23);
 
 console.log(addVAT2(100)); // 123
 console.log(addVAT2(23)); // 28.29
+ */
+
+/////////////////////
+// 135 Coding Challenge #1
+
+/*
+ Let's build a simple poll app!
+
+ A poll has a question, an array of options from which people can choose, and an array with the number of replies for each options. This data is stored in the starter object below.
+
+ Here are your tasks:
+
+ 1. Create a method called 'registerNewAnswer' on the 'poll' object. The method does 2 things:
+  1.1. Display a prompt window for the user to input the number of the selected option. The prompt should look like this:
+      What is your favorite programming language ?
+      0: JavaScript
+      1: Python
+      2: Rust
+      3: C++
+      (Write option number) 
+  1.2. Based on the input number, update the answers array. For example, if the option is 3, increase the value AT POSITION 3 of the array by 1. Makesure to check if the input is a number and if the number makes sense (e.g. answer 52 wouldn't make sense.right ?)
+2. Call this method whenever the user clicks the "Answer poll" button.
+3. Create a method 'displayResults' which displays the poll results. The method takes a string as an input (called 'type'), which can be either 'string' or 'array'. If type is 'array', simply display the results array as it is, using console.log(). This should be the default option. If type is 'string', display a string like "Poll results are 13, 2 ,4, 1".
+4. Run the 'displayResults' method at the end of each 'registerNewAnswer' method call.
+
+HINT: Use many of the tools you learned about in this and the last section
+
+BONUS: Use the 'displayResults' method to display the 2 arrays in the test data. Use both the 'array' and the 'string' option. Do NOT put the arrays in the poll object! So what sould the this keyword look like in this situation ?
+
+BONUS TEST DATA 1: [5, 2, 3]
+BONUS TEST DATA 2: [1, 5, 3, 9, 6, 1]
+ */
+/* 
+const poll = {
+  question: 'Whats is your favourite programming language ?',
+  options: ['0: JavaScript', '1: Python', '2: Rust', '3: C++'],
+  answers: new Array(4).fill(0),
+  // This generates [0, 0, 0, 0]
+  // Get answer
+  registerNewAnswer() {
+    const answer = Number(
+      prompt(
+        `${this.question}\n${this.options.join('\n')}\n(Write option number)`
+      )
+    );
+    console.log(answer);
+
+    // Register answer
+    //Check if the answer is a number and if is below the options lenght, to increase the right position (short-circutin)
+    typeof answer === 'number' &&
+      answer < this.answers.length &&
+      this.answers[answer]++;
+
+    //console.log(this.answers);
+    this.displayResults();
+    this.displayResults('string');
+  },
+  displayResults(type = 'array') {
+    if (type === 'array') {
+      console.log(this.answers);
+    } else if (type === 'string') {
+      console.log(`Poll results are ${this.answers.join(', ')}`);
+    }
+  },
+};
+document
+  .querySelector('.poll')
+  .addEventListener('click', poll.registerNewAnswer.bind(poll));
+
+// BONUS solution
+poll.displayResults.call({ answers: [5, 2, 3] }, 'string');
+poll.displayResults.call({ answers: [1, 5, 3, 9, 6, 1] }, 'string');
+ */
+// my solution
+/* poll.registerNewAnswer = function () {
+  window.prompt(
+    `${this.question}
+${this.options}
+(Write option number)`,
+    ''
+  );
+
+  if (poll === 0) {
+    this.answers[0]++;
+  }
+  if (poll === 1) {
+    this.answers[1]++;
+  }
+  if (poll === 2) {
+    this.answers[2]++;
+  } else {
+    this.answers[3]++;
+  }
+};
+poll.displayResults = function (type) {
+  if (type === 'array') {
+    console.log(array);
+  } else {
+    console.log(`Poll results are ${this.answers}`);
+  }
+};
+console.log(poll);
+document
+  .querySelector('.poll')
+  .addEventListener('click', poll.registerNewAnswer.bind(poll));
+ */
+
+/////////////////////
+// 136 Immediately Invoked Function Expressions (IIFE)
+
+// Functions that are created to run just once.
+
+// 'Nomral' function - I can call it as many times as I want
+const runOnce = function () {
+  console.log('This will never run again (normal expression)');
+};
+runOnce();
+
+// IIFE function - No variable, wrapped into () and called by the () at the end
+(function () {
+  console.log('This will never run again (IIFE)');
+})();
+
+(() => console.log('This will never run again (arrow function)'))();
+
+// In this case, the expression inner scope has access to whatever is outside in the global scope, but the global scope doesn't have access to anything inside the inner scope. All data defined inside the scope are private and are encapsulated.
+
+{
+  const isPrivate = 23;
+  var notPrivate = 46;
+}
+// const and let also create your own scope in a block strucuture, being private, instead var still able to be access from the global scope. That a reason why IIFE is not that used anymore in modern JS
+console.log(notPrivate); // 46
+// console.log(isPrivate); // Private is not defined
+
+/////////////////////
+// 137 Closures
+
+// A closure is not a feature that we can create it manually, it just simply happen automatically in some situations, we just need to recognize those situations.
+
+const secureBooking = function () {
+  let passengerCount = 0;
+
+  return function () {
+    passengerCount++;
+    console.log(`${passengerCount} passengers`);
+  };
+};
+
+const booker = secureBooking();
+
+// When 'const booker = secureBooking();', our ocde is being executed in the global execution context, and for now, we only have this 'secureBooking' function. When 'secureBooking' is executed, a new execution context is put on top of the execution stack (call stack). Each execution context has a veriable environment which contains all its local variables. In this case, these new execution context contains only the 'passengerCount' set to zero. This variable environment is also the scope of this function. So the scocpe chain of this execution context looks like this: 'passengerCount' is in the local scope, but this scope has access to all variables of the parent scope, and in this case, just a global scope. Next, a fucntion is returned and will be stored at the 'booker' variable, so the global context also contains the 'booker' variable. So when the 'secureBooking' returns, its execution context pops off the execution stack and disappear. It has done its job and has now finish execution.
+
+booker(); // 1 passengers
+booker(); // 2 passengers
+booker(); // 3 passengers
+
+// How the 'booker' is able to update the 'let passengerCount', thats is defined in the 'secureBooking' function and has already finished its execution ? That's what closure does: we can say that a closure makes a fucntion to remember all the variables that exsisted
