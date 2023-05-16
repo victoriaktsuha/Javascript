@@ -410,7 +410,7 @@ document
 
 /////////////////////
 // 136 Immediately Invoked Function Expressions (IIFE)
-
+/* 
 // Functions that are created to run just once.
 
 // 'Nomral' function - I can call it as many times as I want
@@ -435,6 +435,7 @@ runOnce();
 // const and let also create your own scope in a block strucuture, being private, instead var still able to be access from the global scope. That a reason why IIFE is not that used anymore in modern JS
 console.log(notPrivate); // 46
 // console.log(isPrivate); // Private is not defined
+ */
 
 /////////////////////
 // 137 Closures
@@ -452,10 +453,97 @@ const secureBooking = function () {
 
 const booker = secureBooking();
 
-// When 'const booker = secureBooking();', our ocde is being executed in the global execution context, and for now, we only have this 'secureBooking' function. When 'secureBooking' is executed, a new execution context is put on top of the execution stack (call stack). Each execution context has a veriable environment which contains all its local variables. In this case, these new execution context contains only the 'passengerCount' set to zero. This variable environment is also the scope of this function. So the scocpe chain of this execution context looks like this: 'passengerCount' is in the local scope, but this scope has access to all variables of the parent scope, and in this case, just a global scope. Next, a fucntion is returned and will be stored at the 'booker' variable, so the global context also contains the 'booker' variable. So when the 'secureBooking' returns, its execution context pops off the execution stack and disappear. It has done its job and has now finish execution.
+// When 'const booker = secureBooking();', our code is being executed in the global execution context, and for now, we only have this 'secureBooking' function. When 'secureBooking' is executed, a new execution context is put on top of the execution stack (call stack). Each execution context has a veriable environment which contains all its local variables. In this case, these new execution context contains only the 'passengerCount' set to zero. This variable environment is also the scope of this function. So the scope chain of this execution context looks like this: 'passengerCount' is in the local scope, but this scope has access to all variables of the parent scope, and in this case, just a global scope. Next, a funstion is returned and will be stored at the 'booker' variable, so the global context also contains the 'booker' variable. So when the 'secureBooking' returns, its execution context pops off the execution stack and disappear. It has done its job and has now finish execution.
 
 booker(); // 1 passengers
 booker(); // 2 passengers
 booker(); // 3 passengers
 
-// How the 'booker' is able to update the 'let passengerCount', thats is defined in the 'secureBooking' function and has already finished its execution ? That's what closure does: we can say that a closure makes a fucntion to remember all the variables that exsisted
+// How the 'booker' is able to update the 'let passengerCount', thats is defined in the 'secureBooking' function and has already finished its execution ? That's what closure does: we can say that a closure makes a function to remember all the variables that existed. After the 'secureBooking' finished, the 'booker', in the global context, will be executed, placing the 'booker' execution context in the top of the callstack and the variable environment of this context is empty simply because there are no variables declared in this function. Any function always has access to the variable environment of the execution context in which the function was created, even after the execution context is gone. In case of the 'booker', it was created in the execution context of 'secureBooking', which as popped off hte stack previously, remember ? So therefore the 'booker' function will get access to the 'secureBooking' variable environment which contains the ' assengerCount' variable. This is how the function will be able to read and manipulate the 'passengerCount' variable: is this connection we call CLOSURE. The closure is basically this variable environment attached to the function, exactly as it was at the time and place that the function was created. The scope chain is actually preserved through the closure, even when a scope has already been destroyed because its execution context is gone, the variable environment somehow keeps living somewhere in the engine. Closure has priority over the scope chain. => A closure is the closed-over variable environment of the execution context in which a function was created, even after that execution is gone forever; => A closure gives a function access to all the variables of its parent function, even after that parent function has returned. The function keeps a reference to its outer scope, which preserves the scope chain throughout time; => A closure makes sure that a function doesn't loose connection to variables that existed at the function's birth place; => A closure is like a backpack that a function carries around wherever it goes. This backpack has all the variables that were present in the environment where the function was created.
+
+console.dir(booker); // > 0: Closure (secureBooking) {passengerCount: 3}
+
+/////////////////////
+// 138 More Closure Examples
+
+/*We don't need to return a function from another function in order to create a closure*/
+
+// Example 1
+let f;
+
+const g = function () {
+  const a = 23;
+  f = function () {
+    console.log(a * 2);
+  };
+};
+
+// g();
+// f();
+
+// The 'f' variable was defined in the global scope, but as we assigned a function to 'f' inside the 'g' function, 'f' can access the 'a' variable even when 'g' function has finished and its 'no longer there'. The 'a' variable is inside of the backpack of the 'f' function
+
+const h = function () {
+  const b = 777;
+  f = function () {
+    console.log(b * 2);
+  };
+};
+
+g();
+f(); // 46 => 'a' variable
+console.dir(f); // >0: Closure (g) {a: 23}
+
+//Reassign F
+h();
+f(); // 1554 => 'b' variable
+
+console.dir(f); // >0: Closure (h) {b: 777}
+
+// Example 2
+const boardPassengers = function (n, wait) {
+  const perGroup = n / 3;
+
+  setTimeout(function () {
+    console.log(`We're now boarding all ${n} passengers`);
+    console.log(`There are 3 groups, each with ${perGroup} passengers`);
+  }, wait * 1000);
+  //setTimeout need a function that will be eecuted after the defined time finished and the time in miliseconds as argument (1000 miliseconds = 1 second); In this case, we want to pass 'wait' as seconds, so we need to multiple the miliseconds per seconds
+
+  console.log(`Will start boarding in ${wait} seconds`);
+  // This console.log will be executed before the 'setTimeout' function.
+};
+
+const perGroup = 1000;
+//The closure have priority over the scope chain, so the 'const perGroup = 1000;' will not be used
+
+boardPassengers(180, 3); //Here the function are going to receive the number of the passengers and the time to start to boarding them, as defined before
+
+// *As soon as the page is loaded, we can it in the console:
+// > Will start boarding in 3 seconds
+// *After the 3 seconds:
+// > We're now boarding all 180 passengers
+// > There are 3 groups, each with 60 passengers
+
+// The callback function 'setTimeout' was executed completely independently from the board passengers function
+
+/////////////////////
+// 139 Coding Challenge #2
+
+/*
+Take the IIFE below and at the end of the function, attach an event listener that changes the color of the selected <h1> element ('header') to blue, each time the BODY element is clicked. Do NOT select the <h1> element again!
+
+And now explain to YOURSELF (or someone around you) WHY this worked! Take all the time you need. Think about WHEN exactly tha callback function is executed, and what that means for the variables involved in this example.
+
+*/
+
+(function () {
+  const header = document.querySelector('h1');
+  header.style.color = 'red';
+
+  document.querySelector('body').addEventListener('click', function () {
+    header.style.color = 'blue';
+  });
+})();
+
+// Why did it work ? How does the callback function that we've just created get access to the header => the reason is the closure, by the time this callback is executed, it immediately invoked function expression, that had already finished with the variable. Bt still, the callback function is attached to the body element, waiting for some events to happen there; And when that event happen, the callback function is executed. It still able to access the variables => the header is in the backpack of the callback function
