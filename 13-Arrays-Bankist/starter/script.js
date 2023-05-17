@@ -169,7 +169,7 @@ console.log('name'.slice(-2)); // me
 
 ///////////////////////////
 // 144 Looping Arrays: forEach
-
+/* 
 // Different from the 'for of' loop method, 'forEach'
 
 //Let's loop over the 'movement' array in order to print a message for each movement on the bank account (deposits and withdraws):
@@ -214,7 +214,7 @@ for (const [i, movement] of movements.entries()) {
 console.log(`------- forEach (current element array index) --------`);
 
 movements.forEach(function (mov, i, arr) {
-  // in 'forEach', the first parameter always needs to be the current element, the second one is always the current index and the third is always the entire array
+  // in 'forEach' loop, the first parameter always needs to be the current element of the array, the second one is always the current index and the third is always the entire array
   if (mov > 0) {
     console.log(`Movement ${i + 1}: You deposited ${mov}`);
   } else {
@@ -223,3 +223,68 @@ movements.forEach(function (mov, i, arr) {
 });
 
 // The fundamental difference betwween 'for of' loop and the 'forEach' loop is that you cannot break out of a 'forEach' loop; 'continue' and 'break' statement doesn't work with 'forEach', meaning that 'forEach' will always loop for the entire array
+ */
+
+///////////////////////////
+// 145 forEach With Maps and Sets
+/* 
+// 'forEach' + Map
+// Map -> array of arrays; each inner array will be one entry of the map, where the first element is the key and the second is the value -> e.g. const arrays = new Map ([['key', 'value'], ['key', 'value'], [...]]);"
+
+currencies.forEach(function (value, key, map) {
+  // in 'forEach' loop with Maps, the first parameter always needs to be the current value, the second one is always the key and the third is always the entire map
+  console.log(`${key}: ${value}`);
+  // *In the console:
+  // USD: United States dollar
+  // EUR: Euro
+  // GBP: Pound sterling
+});
+
+// 'forEach' + Set
+// Set -> Needs to receive iterables
+
+const currenciesUnique = new Set(['USD', 'GBP', 'USD', 'EUR', 'EUR']);
+console.log(currenciesUnique); // >Set(3) {'USD', 'GBP', 'EUR'}
+
+currenciesUnique.forEach(function (value, _, map) {
+  console.log(`${_}: ${value}`);
+  // *In the console:
+  // USD: USD
+  // GBP: GBP
+  // EUR: EUR
+});
+//Why the key is also the value in the forEach loop in Set object ? -> Set doesn't have keys, and it doesn't have indexes either, so there is no value that would make sense for the key. The reason is that the second parameter in the callback function couldn't be removed form the method, otherwise, should exist another 'forEach' just for Sets, creating confusing. So it was decided to keep as it was, with the 3 parameters, and in case of Sets, repeat the 'value' to 'key' parameter
+
+// '_' underscore (as parameter, in this case), in JS, means a throwaway variable, a completely unnecessary variable
+ */
+
+///////////////////////////
+// 147 Creating DOM Elements
+
+// Displaying the accounts movements in the DOM
+
+//*We're going to start passing data inside the functions, instead using global variables, cause its not a good practice
+const displayMovements = function (movements) {
+  containerMovements.innerHTML = '';
+  // Here we're reseting the 'movements' div content to receive the new movement content (textContent would return just the text, that's the difference to 'innerHTML', that returns everything, including the HTML itself)
+
+  movements.forEach(function (mov, i) {
+    const type = mov > 0 ? 'deposit' : 'withdrawal';
+    //Ternary operator to know if its a deposit or a withdraw
+
+    const html = `
+      <div class="movements__row">
+        <div class="movements__type movements__type--${type}">${
+      i + 1
+    } ${type}</div>
+        <div class="movements__value">${mov}</div>
+      </div>
+    `;
+    // Template literals (``) to create the layout that will display the movements; they're great to create HTML templates in the script
+
+    containerMovements.insertAdjacentHTML('afterbegin', html);
+    // insertAdjacentHTML() method to insert the literal template HTML that we've just created into the <div> correspondent to the account movements, defined in the variable 'const containerMovements' previously; This method accepts 2 strings: the first is the position in which we want to attach the HTML (there are more options than 'afterbegin' - consult MDN doc.) and the second one is the string containing the HTML we want to insert; 'afterbegin' was used so the 'latest' movement in the account could appear at the top of the list, adding the new content above the content that was already there, right after the tag <div class="movements"> appear; If we have used 'beforeend', for example, the movements would start by the 'oldest' to 'latest', right after the closing tag </div> of the <div class="movements">;
+  });
+};
+
+displayMovements(account1.movements);
