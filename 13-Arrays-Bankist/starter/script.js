@@ -335,3 +335,28 @@ checkDogs([9, 16, 6, 8, 3], [10, 5, 6, 1, 4]);
 
 ///////////////////////////
 // 150 The Map Method
+
+/* Tranforming EU into USD */
+const eurToUsd = 1.1;
+
+// const movementsUSD = movements.map(function (mov) {
+//   return Math.trunc(mov * eurToUsd);
+// });
+
+/* Rewriting the function above in arrow function syntax*/
+const movementsUSD = movements.map(mov => Math.trunc(mov * eurToUsd));
+console.log(movements);
+console.log('Array w/ map', movementsUSD);
+
+const movementsUSDfor = [];
+for (const mov of movements) movementsUSDfor.push(Math.trunc(mov * eurToUsd));
+console.log('Array w/ for loop', movementsUSDfor);
+
+const movementsDescr = movements.map(
+  (mov, i) =>
+    `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrew'} ${Math.abs(
+      mov
+    )}`
+);
+console.log(movementsDescr); // Strings array
+/* The difference between the 'forEach' method and the 'map' method is: 'forEach' method creates side effects when, in each iteration, it performs some action (the callabck fucntion); But with the 'map' method, we don't have side effects in each iteration, we've just returned each of the strings form the callback, getting added into a new array and printed this entire array to the console, AND NOT the elements one by one*/
