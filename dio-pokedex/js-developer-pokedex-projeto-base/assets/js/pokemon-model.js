@@ -1,4 +1,4 @@
-class PokemonDetail {
+class Pokemon {
   order;
   name;
   type;
@@ -6,6 +6,7 @@ class PokemonDetail {
   photo;
   height;
   weight;
+  species;
   abilities = [];
   gender = [];
   eggGroups = [];

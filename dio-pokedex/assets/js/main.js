@@ -52,15 +52,3 @@ function loadPokemonItems(offset, limit) {
   });
 }
 loadPokemonItems(offset, limit);
-
-loadMoreBtn.addEventListener("click", () => {
-  offset += limit;
-  const qtdRecordNextPage = offset + limit;
-  if (qtdRecordNextPage >= maxRecords) {
-    const newLimit = maxRecords - offset;
-    loadPokemonItems(offset, newLimit);
-    loadMoreBtn.parentElement.removeChild(loadMoreBtn);
-  } else {
-    loadPokemonItems(offset, limit);
-  }
-});
